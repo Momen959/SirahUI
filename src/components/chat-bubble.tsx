@@ -29,13 +29,13 @@ export function ChatBubble({ message }: { message: Message }) {
         </AvatarFallback>
       </Avatar>
 
-      <div className={cn("max-w-xl rounded-lg p-4", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card shadow-sm border")}>
+      <div className={cn("max-w-xl rounded-lg p-4 shadow-md", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border")}>
         <p className="whitespace-pre-wrap">{message.text}</p>
         
         {message.sources && message.sources.length > 0 && (
           <div className="mt-4 space-y-3">
             {message.sources.map((source, index) => (
-              <Card key={index} className="bg-accent/30 border-primary/20">
+              <Card key={index} className="bg-background/50 border-primary/20">
                 <CardHeader className="flex flex-row items-center gap-3 space-y-0 p-3">
                   <BookOpen className="h-5 w-5 text-primary" />
                   <CardTitle className="text-sm font-semibold text-primary/90">{source.title}</CardTitle>
@@ -44,7 +44,7 @@ export function ChatBubble({ message }: { message: Message }) {
                   <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground">
                     {source.content}
                   </blockquote>
-                </CardContent>
+                </I am introducing a new welcome screen to introduce the app, and updating the theme to be more paper-like and visually engaging with Islamic motifs. I am also updating the chat interface to be on a separate page.dContent>
               </Card>
             ))}
           </div>
