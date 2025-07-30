@@ -15,7 +15,7 @@ const ChatInputSchema = z.object({
   message: z.string().describe('The user\'s message.'),
   tone: z.enum(['Concise', 'Reflective']).describe('The desired tone for the AI\'s response.'),
   madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe('The school of thought to consider in the response.'),
-  riwayah: z.enum(['Hafs', 'Warsh', 'Qalun', 'Other']).optional().describe('The Quranic riwayah (recitation) to reference.'),
+  riwayah: z.enum(['Sahih al-Bukhari', 'Sahih Muslim', 'Jami` at-Tirmidhi', 'Sunan an-Nasa\'i', 'Other']).optional().describe('The Hadith collection to reference.'),
   perspectives: z.array(z.enum(["Prophet's Life", "Sahaba", "Qur'an Tafseer", "Life Lessons"])).optional().describe('A list of specific perspectives to answer from.'),
   history: z.array(z.object({
     role: z.enum(['user', 'model']),
@@ -53,7 +53,7 @@ const prompt = ai.definePrompt({
       -   **Fiqh Madhhab:** The user is interested in the {{madhhab}} school of thought. If the query is related to fiqh, frame your answer from this perspective.
       {{/if}}
       {{#if riwayah}}
-      -   **Quranic Riwayah:** If referencing the Quran, consider the {{riwayah}} riwayah (recitation) if relevant.
+      -   **Hadith Riwayah:** If referencing Hadith, consider the {{riwayah}} collection if relevant.
       {{/if}}
       {{#if perspectives.length}}
       -   **Perspectives:** The user wants the answer framed from the following perspectives: {{#each perspectives}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}. Focus your answer on these topics.

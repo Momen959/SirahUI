@@ -20,7 +20,7 @@ import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
-export type Riwayah = "Hafs" | "Warsh" | "Qalun" | "Other" | null;
+export type Riwayah = "Sahih al-Bukhari" | "Sahih Muslim" | "Jami` at-Tirmidhi" | "Sunan an-Nasa'i" | "Other" | null;
 export type Perspective = "Prophet's Life" | "Sahaba" | "Qur'an Tafseer" | "Life Lessons";
 
 export interface Message {
@@ -130,7 +130,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   };
   
   const madhhabs: Madhhab[] = ["Hanafi", "Maliki", "Shafi'i", "Hanbali", "Other"];
-  const riwayahs: Riwayah[] = ["Hafs", "Warsh", "Qalun", "Other"];
+  const riwayahs: Riwayah[] = ["Sahih al-Bukhari", "Sahih Muslim", "Jami` at-Tirmidhi", "Sunan an-Nasa'i", "Other"];
 
   return (
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
