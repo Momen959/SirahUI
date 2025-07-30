@@ -16,7 +16,7 @@ const ChatInputSchema = z.object({
   tone: z.enum(['Concise', 'Reflective']).describe('The desired tone for the AI\'s response.'),
   madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe('The school of thought to consider in the response.'),
   riwayah: z.enum(['Hafs', 'Warsh', 'Qalun', 'Other']).optional().describe('The Quranic riwayah (recitation) to reference.'),
-  perspective: z.enum(["Prophet's Life", "Sahaba", "Qur'an Tafseer", "Life Lessons"]).optional().describe('The specific perspective to answer from.'),
+  perspectives: z.array(z.enum(["Prophet's Life", "Sahaba", "Qur'an Tafseer", "Life Lessons"])).optional().describe('A list of specific perspectives to answer from.'),
   history: z.array(z.object({
     role: z.enum(['user', 'model']),
     content: z.array(z.object({
@@ -55,8 +55,8 @@ const prompt = ai.definePrompt({
       {{#if riwayah}}
       -   **Quranic Riwayah:** If referencing the Quran, consider the {{riwayah}} riwayah (recitation) if relevant.
       {{/if}}
-      {{#if perspective}}
-      -   **Perspective:** The user wants the answer framed from the specific perspective of '{{perspective}}'. Focus your answer on this topic.
+      {{#if perspectives.length}}
+      -   **Perspectives:** The user wants the answer framed from the following perspectives: {{#each perspectives}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}. Focus your answer on these topics.
       {{else}}
       -   **Perspective:** The user has not selected a specific perspective. You should answer the question from all available perspectives if applicable.
       {{/if}}
