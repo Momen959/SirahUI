@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  .theme-green.light, .theme-green .light {
     --background: 240 50% 98%; /* Off-white (#F8F8FF) */
     --foreground: 240 10% 3.9%;
     --card: 60 33% 95%; /* Light cream (#F5F5DC) */
@@ -17,7 +17,7 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 60 33% 95%; /* Light cream (#F5F5DC) */
+    --accent: 145 44% 95%; 
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
@@ -30,18 +30,18 @@
     --sidebar-background: 240 50% 99%;
     --sidebar-foreground: 145 44% 20%;
     --sidebar-border: 240 5.9% 90%;
-    --sidebar-accent: 60 33% 93%;
+    --sidebar-accent: 145 44% 93%;
     --sidebar-accent-foreground: 145 44% 30%;
     --sidebar-ring: 145 44% 49%;
 
     --chart-1: 145 44% 49%;
-    --chart-2: 60 33% 85%;
+    --chart-2: 145 33% 85%;
     --chart-3: 145 30% 60%;
-    --chart-4: 60 25% 70%;
+    --chart-4: 145 25% 70%;
     --chart-5: 145 20% 75%;
   }
 
-  .dark {
+  .theme-green.dark, .theme-green .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
     --card: 24 9.8% 10%;
@@ -71,10 +71,83 @@
     --sidebar-ring: 145 50% 60%;
     
     --chart-1: 145 50% 60%;
-    --chart-2: 60 33% 75%;
+    --chart-2: 145 33% 75%;
     --chart-3: 145 30% 50%;
-    --chart-4: 60 25% 60%;
+    --chart-4: 145 25% 60%;
     --chart-5: 145 20% 65%;
+  }
+
+  .theme-brown.light, .theme-brown .light {
+    --background: 35 33% 96%; /* Papyrus White */
+    --foreground: 35 15% 15%; /* Dark Brown */
+    --card: 35 33% 92%; /* Light Parchment */
+    --card-foreground: 35 15% 15%;
+    --popover: 35 33% 96%;
+    --popover-foreground: 35 15% 15%;
+    --primary: 35 65% 35%; /* Rich Brown */
+    --primary-foreground: 35 20% 95%; /* Off-white */
+    --secondary: 35 25% 90%; /* Light tan */
+    --secondary-foreground: 35 15% 25%;
+    --muted: 35 25% 90%;
+    --muted-foreground: 35 10% 45%;
+    --accent: 45 80% 80%; /* Muted Gold */
+    --accent-foreground: 35 15% 25%;
+    --destructive: 0 70% 50%; /* Deep Red */
+    --destructive-foreground: 35 20% 95%;
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: 35 65% 45%;
+    --radius: 0.5rem;
+
+    /* Sidebar specific vars */
+    --sidebar-background: 35 33% 94%; /* Parchment */
+    --sidebar-foreground: 35, 65%, 25%; /* Darker Brown */
+    --sidebar-border: 35 20% 85%;
+    --sidebar-accent: 35 30% 88%;
+    --sidebar-accent-foreground: 35 65% 30%;
+    --sidebar-ring: 35 65% 45%;
+
+    --chart-1: 35 65% 40%;
+    --chart-2: 45 70% 60%;
+    --chart-3: 35 50% 50%;
+    --chart-4: 45 60% 70%;
+    --chart-5: 35 40% 60%;
+  }
+
+  .theme-brown.dark, .theme-brown .dark {
+    --background: 35 15% 10%; /* Very Dark Brown */
+    --foreground: 35 20% 92%; /* Light Parchment */
+    --card: 35 15% 15%; /* Dark Brown */
+    --card-foreground: 35 20% 92%;
+    --popover: 35 15% 10%;
+    --popover-foreground: 35 20% 92%;
+    --primary: 35 60% 65%; /* Lighter, rich brown */
+    --primary-foreground: 35 15% 10%;
+    --secondary: 35 15% 20%; /* Dark tan */
+    --secondary-foreground: 35 20% 92%;
+    --muted: 35 15% 20%;
+    --muted-foreground: 35 15% 65%;
+    --accent: 45 60% 50%; /* Dark Gold */
+    --accent-foreground: 35 20% 92%;
+    --destructive: 0 50% 40%; /* Muted Red */
+    --destructive-foreground: 35 20% 92%;
+    --border: 35 15% 25%;
+    --input: 35 15% 25%;
+    --ring: 35 60% 55%;
+
+    /* Sidebar specific vars */
+    --sidebar-background: 35 15% 12%;
+    --sidebar-foreground: 35 50% 85%;
+    --sidebar-border: 35 15% 25%;
+    --sidebar-accent: 35 15% 22%;
+    --sidebar-accent-foreground: 35 60% 75%;
+    --sidebar-ring: 35 60% 55%;
+    
+    --chart-1: 35 60% 65%;
+    --chart-2: 45 50% 55%;
+    --chart-3: 35 50% 50%;
+    --chart-4: 45 45% 60%;
+    --chart-5: 35 40% 65%;
   }
 }
 
@@ -86,10 +159,10 @@
     @apply bg-background text-foreground;
   }
   .paper {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5V5h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5V5h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v-9h-9v9h-1-v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   .dark .paper {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5V5h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9H0v1h5v9h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h9V94h1V95h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5V5h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h9v1h1V0h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1v-1h5v-9H1V6h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h9v5h1V1h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v-9h-9v9h-1-v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9h-9v9h-1v-9H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 }
