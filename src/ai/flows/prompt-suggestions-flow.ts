@@ -18,7 +18,7 @@ const PromptSuggestionSchema = z.object({
 export type PromptSuggestion = z.infer<typeof PromptSuggestionSchema>;
 
 const PromptSuggestionsOutputSchema = z.object({
-  suggestions: z.array(PromptSuggestionSchema).describe('A list of prompt suggestions.'),
+  suggestions: z.array(PromptSuggestionSchema).length(4).describe('A list of exactly 4 prompt suggestions.'),
 });
 export type PromptSuggestionsOutput = z.infer<typeof PromptSuggestionsOutputSchema>;
 
@@ -34,7 +34,7 @@ const prompt = ai.definePrompt({
 
   The prompts should be distinct, insightful, and encourage the user to explore the topic further.
 
-  Return the output as a list of suggestions.
+  Return the output as a list of 4 suggestions. Make sure there is one for each category.
   `,
 });
 

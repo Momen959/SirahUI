@@ -17,6 +17,8 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
@@ -61,6 +63,8 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     riwayah: null,
   });
   const [showSettings, setShowSettings] = useState(false);
+  const autoplay = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -122,15 +126,19 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
         <div className="container mx-auto max-w-4xl p-4 md:p-6">
             {promptSuggestions && promptSuggestions.length > 0 && (
                  <div className="mb-6">
-                    <Carousel opts={{
-                        align: "start",
-                        loop: true,
-                    }} className="w-full">
+                    <Carousel 
+                        plugins={[autoplay.current]}
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }} 
+                        className="w-full"
+                    >
                         <CarouselContent>
                             {promptSuggestions.map((suggestion, index) => {
                                 const Icon = categoryIcons[suggestion.category] || Lightbulb;
                                 return (
-                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                <CarouselItem key={index}>
                                     <div className="p-1">
                                     <Card 
                                         className="h-full cursor-pointer border-primary/20 bg-card/80 shadow-sm backdrop-blur-sm transition-transform hover:scale-105 hover:border-primary/40"
