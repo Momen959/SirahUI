@@ -1,15 +1,22 @@
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
-import { Sparkles, SendHorizontal } from "lucide-react";
+import { Sparkles, SendHorizontal, Settings, ChevronDown, Check } from "lucide-react";
 import { SirahSenseLogo } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatBubble } from "@/components/chat-bubble";
+import { getChatResponse } from "@/app/actions";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 export type Tone = "Concise" | "Reflective";
+export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
+export type Recitation = "Hafs" | "Warsh" | "Qalun" | "Other" | null;
 
 export interface Message {
   id: string;
@@ -19,6 +26,12 @@ export interface Message {
     title: string;
     content: string;
   }[];
+}
+
+interface ChatSettings {
+  tone: Tone;
+  madhhab: Madhhab;
+  recitation: Recitation;
 }
 
 export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string }) {
@@ -31,6 +44,13 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [settings, setSettings] = useState<ChatSettings>({
+    tone: "Reflective",
+    madhhab: null,
+    recitation: null,
+  });
+  const [showSettings, setShowSettings] = useState(false);
+
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,41 +59,47 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
     }
   }, [messages, isTyping]);
 
-  const handleSendMessage = (e: FormEvent) => {
+  const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isTyping) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       sender: "user",
       text: input,
     };
-    setMessages((prev) => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    const currentInput = input;
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: Date.now().toString(),
-        sender: "ai",
-        text: `That is an insightful question. Here is a reflection on that... The life of the Prophet provides us with countless lessons in patience, compassion, and leadership.`,
-        sources: [
-          {
-            title: "Quran 21:107",
-            content:
-              "And We have not sent you, [O Muhammad], except as a mercy to the worlds.",
-          },
-          {
-            title: "Hadith - Sahih al-Bukhari",
-            content: "The best among you are those who have the best manners and character.",
-          }
-        ],
-      };
-      setIsTyping(false);
-      setMessages((prev) => [...prev, aiResponse]);
-    }, 2000);
+    const chatHistoryForAI = newMessages.slice(1, -1).map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'model',
+        content: [{ text: msg.text }]
+    }));
+
+    const response = await getChatResponse({
+      message: currentInput,
+      tone: settings.tone,
+      madhhab: settings.madhhab ?? undefined,
+      recitation: settings.recitation ?? undefined,
+      history: chatHistoryForAI,
+    });
+
+    const aiResponse: Message = {
+      id: Date.now().toString(),
+      sender: "ai",
+      text: response.answer,
+      sources: response.sources,
+    };
+    
+    setIsTyping(false);
+    setMessages((prev) => [...prev, aiResponse]);
   };
+  
+  const madhhabs: Madhhab[] = ["Hanafi", "Maliki", "Shafi'i", "Hanbali", "Other"];
+  const recitations: Recitation[] = ["Hafs", "Warsh", "Qalun", "Other"];
 
   return (
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
@@ -113,6 +139,63 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
       
       <footer className="border-t bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto max-w-4xl p-4">
+          
+          <div className="mb-2">
+              <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="text-muted-foreground hover:text-primary">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>AI Settings</span>
+                  <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
+              </Button>
+          </div>
+
+          {showSettings && (
+            <div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4 rounded-lg border bg-card/50 p-4">
+                <div className="flex items-center space-x-2">
+                    <Label htmlFor="tone-switch">Concise</Label>
+                    <Switch
+                        id="tone-switch"
+                        checked={settings.tone === "Reflective"}
+                        onCheckedChange={(checked) => setSettings(s => ({ ...s, tone: checked ? "Reflective" : "Concise" }))}
+                    />
+                    <Label htmlFor="tone-switch">Reflective</Label>
+                </div>
+                
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="justify-between">
+                            <span>{settings.madhhab || "Select Madhhab"}</span>
+                            <ChevronDown className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                        {madhhabs.map(m => (
+                            <DropdownMenuItem key={m} onSelect={() => setSettings(s => ({ ...s, madhhab: m }))}>
+                                <Check className={cn("mr-2 h-4 w-4", settings.madhhab === m ? "opacity-100" : "opacity-0")} />
+                                {m}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="justify-between">
+                            <span>{settings.recitation || "Select Recitation"}</span>
+                            <ChevronDown className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                        {recitations.map(r => (
+                            <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, recitation: r }))}>
+                                <Check className={cn("mr-2 h-4 w-4", settings.recitation === r ? "opacity-100" : "opacity-0")} />
+                                {r}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+          )}
+
           <div className="relative">
             <form
               onSubmit={handleSendMessage}
