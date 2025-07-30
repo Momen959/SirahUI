@@ -1,7 +1,7 @@
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarFooter } from "@/components/ui/sidebar";
 import { SirahSenseLogo } from "@/components/icons";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Home, MessageSquare, Book, User, Settings, LogOut, ScrollText, Users, Lightbulb, BookOpen } from "lucide-react";
+import { Home, MessageSquare, Book, User, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -37,30 +37,6 @@ export default function ChatLayout({
                   <MessageSquare />
                   <span>Current Chat</span>
                 </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <ScrollText />
-                <span>Story of the Prophet</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <Users />
-                <span>Sahaba</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <Lightbulb />
-                <span>Life Lessons</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <BookOpen />
-                <span>Qur'an Tafseer</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

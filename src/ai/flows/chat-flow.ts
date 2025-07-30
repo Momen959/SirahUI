@@ -16,6 +16,7 @@ const ChatInputSchema = z.object({
   tone: z.enum(['Concise', 'Reflective']).describe('The desired tone for the AI\'s response.'),
   madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe('The school of thought to consider in the response.'),
   riwayah: z.enum(['Hafs', 'Warsh', 'Qalun', 'Other']).optional().describe('The Quranic riwayah (recitation) to reference.'),
+  perspective: z.enum(["Prophet's Life", "Sahaba", "Qur'an Tafseer", "Life Lessons"]).optional().describe('The specific perspective to answer from.'),
   history: z.array(z.object({
     role: z.enum(['user', 'model']),
     content: z.array(z.object({
@@ -53,6 +54,11 @@ const prompt = ai.definePrompt({
       {{/if}}
       {{#if riwayah}}
       -   **Quranic Riwayah:** If referencing the Quran, consider the {{riwayah}} riwayah (recitation) if relevant.
+      {{/if}}
+      {{#if perspective}}
+      -   **Perspective:** The user wants the answer framed from the specific perspective of '{{perspective}}'. Focus your answer on this topic.
+      {{else}}
+      -   **Perspective:** The user has not selected a specific perspective. You should answer the question from all available perspectives if applicable.
       {{/if}}
   3.  **Consult Sources:** Base your answer on authentic sources like the Quran and major Hadith collections (e.g., Sahih al-Bukhari, Sahih Muslim).
   4.  **Formulate the Answer:**

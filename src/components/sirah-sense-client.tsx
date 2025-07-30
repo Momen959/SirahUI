@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
-import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb } from "lucide-react";
+import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X } from "lucide-react";
 import { SirahSenseLogo } from "@/components/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +13,7 @@ import { getChatResponse } from "@/app/actions";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
@@ -23,6 +24,7 @@ import Autoplay from "embla-carousel-autoplay";
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
 export type Riwayah = "Hafs" | "Warsh" | "Qalun" | "Other" | null;
+export type Perspective = "Prophet's Life" | "Sahaba" | "Qur'an Tafseer" | "Life Lessons" | null;
 
 export interface Message {
   id: string;
@@ -40,12 +42,13 @@ interface ChatSettings {
   riwayah: Riwayah;
 }
 
-const categoryIcons: { [key: string]: React.ElementType } = {
-    "Prophet's Life": User,
-    "Sahaba": Users,
-    "Qur'an": BookOpen,
-    "Life Lessons": Lightbulb,
+const perspectiveConfig: { [key in NonNullable<Perspective>]: { icon: React.ElementType } } = {
+    "Prophet's Life": { icon: User },
+    "Sahaba": { icon: Users },
+    "Qur'an Tafseer": { icon: BookOpen },
+    "Life Lessons": { icon: Lightbulb },
 };
+const perspectives = Object.keys(perspectiveConfig) as Perspective[];
 
 export default function SirahSenseClient({ promptSuggestions }: { promptSuggestions: PromptSuggestion[] }) {
   const [messages, setMessages] = useState<Message[]>([
@@ -62,7 +65,9 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     madhhab: null,
     riwayah: null,
   });
+  const [activePerspective, setActivePerspective] = useState<Perspective>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [showPerspectives, setShowPerspectives] = useState(false);
   const autoplay = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
 
 
@@ -103,6 +108,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
       tone: settings.tone,
       madhhab: settings.madhhab ?? undefined,
       riwayah: settings.riwayah ?? undefined,
+      perspective: activePerspective ?? undefined,
       history: chatHistoryForAI,
     } as ChatInput);
 
@@ -123,46 +129,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   return (
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
       <ScrollArea className="flex-1" ref={scrollAreaRef}>
-        <div className="container mx-auto max-w-4xl p-4 md:p-6">
-            {promptSuggestions && promptSuggestions.length > 0 && (
-                 <div className="mb-6">
-                    <Carousel 
-                        plugins={[autoplay.current]}
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }} 
-                        className="w-full"
-                    >
-                        <CarouselContent>
-                            {promptSuggestions.map((suggestion, index) => {
-                                const Icon = categoryIcons[suggestion.category] || Lightbulb;
-                                return (
-                                <CarouselItem key={index}>
-                                    <div className="p-1">
-                                    <Card 
-                                        className="h-full cursor-pointer border-primary/20 bg-card/80 shadow-sm backdrop-blur-sm transition-transform hover:scale-105 hover:border-primary/40"
-                                        onClick={() => handlePromptClick(suggestion.prompt)}
-                                    >
-                                        <CardContent className="flex flex-col items-start gap-3 p-4">
-                                            <div className="flex items-center gap-2">
-                                                <Icon className="h-5 w-5 text-accent" />
-                                                <h3 className="font-semibold text-primary">{suggestion.category}</h3>
-                                            </div>
-                                            <p className="text-sm text-muted-foreground">{suggestion.prompt}</p>
-                                        </CardContent>
-                                    </Card>
-                                    </div>
-                                </CarouselItem>
-                                );
-                            })}
-                        </CarouselContent>
-                        <CarouselPrevious className="text-primary hover:bg-accent/20" />
-                        <CarouselNext className="text-primary hover:bg-accent/20" />
-                    </Carousel>
-                 </div>
-            )}
-         
+        <div className="container mx-auto max-w-4xl p-4 md:p-6">            
           <div className="space-y-6">
             {messages.map((msg) => (
               <ChatBubble key={msg.id} message={msg} />
@@ -187,6 +154,22 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
       
       <footer className="border-t bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto max-w-4xl p-4">
+            {activePerspective && (
+                <div className="mb-2 flex items-center justify-start">
+                    <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+                        {React.createElement(perspectiveConfig[activePerspective].icon, { className: "h-4 w-4" })}
+                        <span>{activePerspective}</span>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-5 w-5 rounded-full"
+                            onClick={() => setActivePerspective(null)}
+                        >
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
+            )}
           <form onSubmit={handleSendMessage}>
             <div className="relative">
               <Textarea
@@ -213,12 +196,52 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
             </div>
           </form>
 
-          <div className="mt-2 flex items-center justify-between">
+          <div className="mt-2 flex items-center justify-start gap-2">
             <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="text-muted-foreground hover:text-primary">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>AI Settings</span>
                 <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
             </Button>
+            
+            <Popover open={showPerspectives} onOpenChange={setShowPerspectives}>
+                <PopoverTrigger asChild>
+                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
+                        <Compass className="mr-2 h-4 w-4" />
+                        <span>Perspectives</span>
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80" align="start">
+                    <div className="grid gap-4">
+                        <div className="space-y-2">
+                            <h4 className="font-medium leading-none">Select a Perspective</h4>
+                            <p className="text-sm text-muted-foreground">
+                                Focus the AI's response on a specific topic.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                            {perspectives.map((p) => {
+                                if (!p) return null;
+                                const Icon = perspectiveConfig[p].icon;
+                                return (
+                                <Button
+                                    key={p}
+                                    variant={activePerspective === p ? "default" : "outline"}
+                                    onClick={() => {
+                                        setActivePerspective(p);
+                                        setShowPerspectives(false);
+                                    }}
+                                    className="justify-start gap-2"
+                                >
+                                    <Icon className="h-4 w-4" />
+                                    {p}
+                                </Button>
+                                );
+                             })}
+                        </div>
+                    </div>
+                </PopoverContent>
+            </Popover>
+
           </div>
           
           {showSettings && (
