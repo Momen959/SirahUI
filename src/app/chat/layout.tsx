@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Home, MessageSquare, Book, User, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function ChatLayout({
   children,
@@ -68,6 +69,7 @@ export default function ChatLayout({
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-primary">Chat</h1>
             </div>
+            <ThemeToggle />
             <Button variant="outline" size="sm">New Chat</Button>
         </header>
         {children}
