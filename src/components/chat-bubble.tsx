@@ -44,7 +44,7 @@ export function ChatBubble({ message }: { message: Message }) {
                   <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground">
                     {source.content}
                   </blockquote>
-                </I am introducing a new welcome screen to introduce the app, and updating the theme to be more paper-like and visually engaging with Islamic motifs. I am also updating the chat interface to be on a separate page.dContent>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -57,7 +57,7 @@ export function ChatBubble({ message }: { message: Message }) {
         </Button>
       )}
 
-      {isUser && <div className="w-8 shrink-0"></div>}
+      {isUser && <div className="w-8 shrink-0" />}
 
     </div>
   );
