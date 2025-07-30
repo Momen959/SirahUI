@@ -17,7 +17,7 @@ import type { ChatInput, ChatOutput } from "@/ai/flows/chat-flow";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
-export type Recitation = "Hafs" | "Warsh" | "Qalun" | "Other" | null;
+export type Riwayah = "Hafs" | "Warsh" | "Qalun" | "Other" | null;
 
 export interface Message {
   id: string;
@@ -32,7 +32,7 @@ export interface Message {
 interface ChatSettings {
   tone: Tone;
   madhhab: Madhhab;
-  recitation: Recitation;
+  riwayah: Riwayah;
 }
 
 export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string }) {
@@ -48,7 +48,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
   const [settings, setSettings] = useState<ChatSettings>({
     tone: "Reflective",
     madhhab: null,
-    recitation: null,
+    riwayah: null,
   });
   const [showSettings, setShowSettings] = useState(false);
 
@@ -84,7 +84,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
       message: currentInput,
       tone: settings.tone,
       madhhab: settings.madhhab ?? undefined,
-      recitation: settings.recitation ?? undefined,
+      riwayah: settings.riwayah ?? undefined,
       history: chatHistoryForAI,
     } as ChatInput);
 
@@ -100,7 +100,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
   };
   
   const madhhabs: Madhhab[] = ["Hanafi", "Maliki", "Shafi'i", "Hanbali", "Other"];
-  const recitations: Recitation[] = ["Hafs", "Warsh", "Qalun", "Other"];
+  const riwayahs: Riwayah[] = ["Hafs", "Warsh", "Qalun", "Other"];
 
   return (
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
@@ -181,14 +181,14 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="justify-between">
-                            <span>{settings.recitation || "Select Recitation"}</span>
+                            <span>{settings.riwayah || "Select Riwayah"}</span>
                             <ChevronDown className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
-                        {recitations.map(r => (
-                            <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, recitation: r }))}>
-                                <Check className={cn("mr-2 h-4 w-4", settings.recitation === r ? "opacity-100" : "opacity-0")} />
+                        {riwayahs.map(r => (
+                            <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, riwayah: r }))}>
+                                <Check className={cn("mr-2 h-4 w-4", settings.riwayah === r ? "opacity-100" : "opacity-0")} />
                                 {r}
                             </DropdownMenuItem>
                         ))}

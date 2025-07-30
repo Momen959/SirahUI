@@ -15,7 +15,7 @@ const ChatInputSchema = z.object({
   message: z.string().describe('The user\'s message.'),
   tone: z.enum(['Concise', 'Reflective']).describe('The desired tone for the AI\'s response.'),
   madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe('The school of thought to consider in the response.'),
-  recitation: z.enum(['Hafs', 'Warsh', 'Qalun', 'Other']).optional().describe('The Quranic recitation to reference.'),
+  riwayah: z.enum(['Hafs', 'Warsh', 'Qalun', 'Other']).optional().describe('The Quranic riwayah (recitation) to reference.'),
   history: z.array(z.object({
     role: z.enum(['user', 'model']),
     content: z.array(z.object({
@@ -51,8 +51,8 @@ const prompt = ai.definePrompt({
       {{#if madhhab}}
       -   **Fiqh Madhhab:** The user is interested in the {{madhhab}} school of thought. If the query is related to fiqh, frame your answer from this perspective.
       {{/if}}
-      {{#if recitation}}
-      -   **Quranic Recitation:** If referencing the Quran, consider the {{recitation}} recitation if relevant.
+      {{#if riwayah}}
+      -   **Quranic Riwayah:** If referencing the Quran, consider the {{riwayah}} riwayah (recitation) if relevant.
       {{/if}}
   3.  **Consult Sources:** Base your answer on authentic sources like the Quran and major Hadith collections (e.g., Sahih al-Bukhari, Sahih Muslim).
   4.  **Formulate the Answer:**
