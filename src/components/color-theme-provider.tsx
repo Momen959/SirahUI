@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -25,28 +26,21 @@ const ColorThemeProviderContext = React.createContext<ColorThemeProviderState>(i
 export function ColorThemeProvider({
   children,
   defaultTheme = "theme-green",
-  storageKey = "vite-ui-theme",
+  storageKey = "sirasense-ui-theme",
   ...props
 }: ColorThemeProviderProps) {
-  const [theme, setTheme] = React.useState<ColorTheme>(
-    () => (localStorage.getItem(storageKey) as ColorTheme) || defaultTheme
-  )
+  const [theme, setTheme] = React.useState<ColorTheme>(defaultTheme)
+
+  React.useEffect(() => {
+    const storedTheme = localStorage.getItem(storageKey) as ColorTheme | null;
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, [storageKey]);
 
   React.useEffect(() => {
     const root = window.document.documentElement
-
     root.classList.remove("theme-green", "theme-brown")
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-
-      root.classList.add(systemTheme)
-      return
-    }
-
     root.classList.add(theme)
   }, [theme])
 
