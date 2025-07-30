@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
@@ -140,17 +141,42 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
       
       <footer className="border-t bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto max-w-4xl p-4">
-          
-          <div className="mb-2">
-              <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="text-muted-foreground hover:text-primary">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>AI Settings</span>
-                  <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
+          <form onSubmit={handleSendMessage}>
+            <div className="relative">
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask a question about the Seerah..."
+                className="min-h-[52px] resize-none rounded-2xl border-2 border-border bg-card py-3 pl-5 pr-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage(e);
+                  }
+                }}
+              />
+              <Button
+                type="submit"
+                size="icon"
+                className="absolute bottom-2 right-2 h-9 w-9 shrink-0 rounded-full"
+                disabled={!input.trim() || isTyping}
+              >
+                <SendHorizontal className="h-5 w-5" />
+                <span className="sr-only">Send Message</span>
               </Button>
-          </div>
+            </div>
+          </form>
 
+          <div className="mt-2 flex items-center justify-between">
+            <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="text-muted-foreground hover:text-primary">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>AI Settings</span>
+                <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
+            </Button>
+          </div>
+          
           {showSettings && (
-            <div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4 rounded-lg border bg-card/50 p-4">
+            <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4 rounded-lg border bg-card/50 p-4">
                 <div className="flex items-center space-x-2">
                     <Label htmlFor="tone-switch">Concise</Label>
                     <Switch
@@ -175,6 +201,10 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
                                 {m}
                             </DropdownMenuItem>
                         ))}
+                         <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, madhhab: null }))}>
+                            <Check className={cn("mr-2 h-4 w-4", settings.madhhab === null ? "opacity-100" : "opacity-0")} />
+                            None
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -192,38 +222,14 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
                                 {r}
                             </DropdownMenuItem>
                         ))}
+                         <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, riwayah: null }))}>
+                            <Check className={cn("mr-2 h-4 w-4", settings.riwayah === null ? "opacity-100" : "opacity-0")} />
+                            None
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
           )}
-
-          <div className="relative">
-            <form
-              onSubmit={handleSendMessage}
-            >
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question about the Seerah..."
-                className="min-h-[52px] resize-none rounded-full border-2 border-border bg-card py-3 pl-5 pr-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage(e);
-                  }
-                }}
-              />
-              <Button
-                type="submit"
-                size="icon"
-                className="absolute bottom-2 right-2 h-9 w-9 shrink-0 rounded-full"
-                disabled={!input.trim() || isTyping}
-              >
-                <SendHorizontal className="h-5 w-5" />
-                <span className="sr-only">Send Message</span>
-              </Button>
-            </form>
-          </div>
         </div>
       </footer>
     </div>
