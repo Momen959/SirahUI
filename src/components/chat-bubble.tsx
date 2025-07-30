@@ -24,12 +24,12 @@ export function ChatBubble({ message }: { message: Message }) {
   return (
     <div className={cn("flex items-end gap-3", isUser && "flex-row-reverse")}>
       <Avatar className="h-10 w-10 shrink-0">
-        <AvatarFallback className={cn("bg-primary/10 text-primary", isUser && "bg-accent/80 text-accent-foreground")}>
+        <AvatarFallback className={cn("bg-primary text-primary-foreground", isUser && "bg-accent text-accent-foreground")}>
           {isUser ? <User /> : <SirahSenseLogo className="h-6 w-6" />}
         </AvatarFallback>
       </Avatar>
 
-      <div className={cn("max-w-xl rounded-lg p-4 shadow-md", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border")}>
+      <div className={cn("max-w-xl rounded-lg p-4 shadow-md", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
         <p className="whitespace-pre-wrap">{message.text}</p>
         
         {message.sources && message.sources.length > 0 && (
@@ -38,7 +38,7 @@ export function ChatBubble({ message }: { message: Message }) {
               <Card key={index} className="bg-background/50 border-primary/20">
                 <CardHeader className="flex flex-row items-center gap-3 space-y-0 p-3">
                   <BookOpen className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm font-semibold text-primary/90">{source.title}</CardTitle>
+                  <CardTitle className="text-sm font-semibold text-primary">{source.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 pt-0">
                   <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground">

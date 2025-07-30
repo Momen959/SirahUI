@@ -80,7 +80,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
 
   return (
     <div className="flex h-screen w-full flex-col bg-transparent">
-      <header className="flex items-center justify-between border-b px-6 py-3 bg-background/80 backdrop-blur-sm">
+      <header className="flex items-center justify-between border-b px-6 py-3 bg-background/80 backdrop-blur-sm text-foreground">
         <div className="flex items-center gap-3">
           <SirahSenseLogo className="h-8 w-8 text-primary" />
           <h1 className="font-headline text-2xl font-bold text-primary">
@@ -103,7 +103,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
       
       <ScrollArea className="flex-1" ref={scrollAreaRef}>
         <div className="container mx-auto max-w-4xl p-4 md:p-6">
-          <Card className="mb-6 border-primary/20 bg-card/80 shadow-sm backdrop-blur-sm">
+          <Card className="mb-6 border-primary/20 bg-card/80 shadow-sm backdrop-blur-sm text-card-foreground">
             <CardHeader className="flex flex-row items-center gap-3 pb-3">
               <Sparkles className="h-6 w-6 text-primary" />
               <CardTitle className="font-headline text-lg text-primary">
@@ -145,7 +145,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question about the Seerah..."
-              className="flex-1 resize-none bg-card focus-visible:ring-1"
+              className="flex-1 resize-none bg-card text-card-foreground focus-visible:ring-1"
               rows={1}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
