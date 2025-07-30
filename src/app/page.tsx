@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function WelcomePage() {
   return (
-    <main className="flex h-screen flex-col items-center justify-center bg-background p-8 text-center text-foreground">
+    <main className="flex h-screen flex-col items-center justify-center p-8 text-center paper">
       <div className="relative mb-8 flex h-48 w-48 items-center justify-center">
         <div className="absolute inset-0 z-0 rounded-full bg-primary/10 blur-2xl"></div>
         <div className="absolute inset-4 z-0 animate-pulse rounded-full bg-primary/20"></div>
