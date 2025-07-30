@@ -1,8 +1,8 @@
 
 'use server';
 import { getDailySeerahPrompt as getDailySeerahPromptFromAI } from '@/ai/flows/daily-seerah-prompt';
-import { chat as chatWithAI } from '@/ai/flows/chat-flow';
-import type { ChatInput, ChatOutput } from '@/ai/flows/chat-flow';
+import { chat as chatWithAI, type ChatInput, type ChatOutput } from '@/ai/flows/chat-flow';
+import { getPromptSuggestions as getPromptSuggestionsFromAI, type PromptSuggestion } from '@/ai/flows/prompt-suggestions-flow';
 
 export async function getDailySeerahPrompt() {
   try {
@@ -13,6 +13,17 @@ export async function getDailySeerahPrompt() {
     return 'Could not fetch a prompt at this time. Please try again later.';
   }
 }
+
+export async function getPromptSuggestions(): Promise<PromptSuggestion[]> {
+    try {
+        const result = await getPromptSuggestionsFromAI();
+        return result.suggestions;
+    } catch (error) {
+        console.error('Error fetching prompt suggestions:', error);
+        return [];
+    }
+}
+
 
 export async function getChatResponse(input: ChatInput): Promise<ChatOutput> {
     try {

@@ -1,10 +1,10 @@
-import { getDailySeerahPrompt } from '@/app/actions';
+import { getPromptSuggestions } from '@/app/actions';
 import SirahSenseClient from '@/components/sirah-sense-client';
 
 export default async function ChatPage() {
-  const dailyPrompt = await getDailySeerahPrompt();
+  const promptSuggestions = await getPromptSuggestions();
 
   return (
-    <SirahSenseClient dailyPrompt={dailyPrompt} />
+    <SirahSenseClient promptSuggestions={promptSuggestions} />
   );
 }

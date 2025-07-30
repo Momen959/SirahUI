@@ -2,9 +2,9 @@
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
-import { Sparkles, SendHorizontal, Settings, ChevronDown, Check } from "lucide-react";
+import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb } from "lucide-react";
 import { SirahSenseLogo } from "@/components/icons";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -14,7 +14,9 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import type { ChatInput, ChatOutput } from "@/ai/flows/chat-flow";
+import type { ChatInput } from "@/ai/flows/chat-flow";
+import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
@@ -36,7 +38,14 @@ interface ChatSettings {
   riwayah: Riwayah;
 }
 
-export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string }) {
+const categoryIcons: { [key: string]: React.ElementType } = {
+    "Prophet's Life": User,
+    "Sahaba": Users,
+    "Qur'an": BookOpen,
+    "Life Lessons": Lightbulb,
+};
+
+export default function SirahSenseClient({ promptSuggestions }: { promptSuggestions: PromptSuggestion[] }) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -60,6 +69,10 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages, isTyping]);
+  
+  const handlePromptClick = (prompt: string) => {
+    setInput(prompt);
+  };
 
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
@@ -107,28 +120,53 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
       <ScrollArea className="flex-1" ref={scrollAreaRef}>
         <div className="container mx-auto max-w-4xl p-4 md:p-6">
-          <Card className="mb-6 border-primary/20 bg-card/80 shadow-sm backdrop-blur-sm text-card-foreground">
-            <CardHeader className="flex flex-row items-center gap-3 pb-3">
-              <Sparkles className="h-6 w-6 text-accent" />
-              <CardTitle className="font-headline text-lg text-primary">
-                Daily Seerah Prompt
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{dailyPrompt}</p>
-            </CardContent>
-          </Card>
-
+            {promptSuggestions && promptSuggestions.length > 0 && (
+                 <div className="mb-6">
+                    <Carousel opts={{
+                        align: "start",
+                        loop: true,
+                    }} className="w-full">
+                        <CarouselContent>
+                            {promptSuggestions.map((suggestion, index) => {
+                                const Icon = categoryIcons[suggestion.category] || Lightbulb;
+                                return (
+                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                    <div className="p-1">
+                                    <Card 
+                                        className="h-full cursor-pointer border-primary/20 bg-card/80 shadow-sm backdrop-blur-sm transition-transform hover:scale-105 hover:border-primary/40"
+                                        onClick={() => handlePromptClick(suggestion.prompt)}
+                                    >
+                                        <CardContent className="flex flex-col items-start gap-3 p-4">
+                                            <div className="flex items-center gap-2">
+                                                <Icon className="h-5 w-5 text-accent" />
+                                                <h3 className="font-semibold text-primary">{suggestion.category}</h3>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground">{suggestion.prompt}</p>
+                                        </CardContent>
+                                    </Card>
+                                    </div>
+                                </CarouselItem>
+                                );
+                            })}
+                        </CarouselContent>
+                        <CarouselPrevious className="text-primary hover:bg-accent/20" />
+                        <CarouselNext className="text-primary hover:bg-accent/20" />
+                    </Carousel>
+                 </div>
+            )}
+         
           <div className="space-y-6">
             {messages.map((msg) => (
               <ChatBubble key={msg.id} message={msg} />
             ))}
             {isTyping && (
-                <div className="flex items-end gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                        <SirahSenseLogo className="h-6 w-6 animate-pulse text-primary" />
-                    </div>
-                    <div className="flex items-center gap-1.5 rounded-lg bg-card p-4 shadow-md">
+                <div className="flex items-start gap-4">
+                    <Avatar className="h-10 w-10 shrink-0 border">
+                      <AvatarFallback className="bg-transparent text-primary">
+                        <SirahSenseLogo className="h-6 w-6 animate-pulse" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex items-center gap-1.5 rounded-lg bg-card px-4 py-3 shadow-sm border text-card-foreground">
                         <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50 [animation-delay:-0.3s]"></span>
                         <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50 [animation-delay:-0.15s]"></span>
                         <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50"></span>
