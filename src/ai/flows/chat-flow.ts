@@ -11,7 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const ChatInputSchema = z.object({
+const ChatInputSchema = z.object({
   message: z.string().describe('The user\'s message.'),
   tone: z.enum(['Concise', 'Reflective']).describe('The desired tone for the AI\'s response.'),
   madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe('The school of thought to consider in the response.'),

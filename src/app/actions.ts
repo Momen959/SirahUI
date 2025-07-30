@@ -1,8 +1,8 @@
 
 'use server';
 import { getDailySeerahPrompt as getDailySeerahPromptFromAI } from '@/ai/flows/daily-seerah-prompt';
-import { chat as chatWithAI, type ChatInput, type ChatOutput } from '@/ai/flows/chat-flow';
-import type { Message } from '@/components/sirah-sense-client';
+import { chat as chatWithAI } from '@/ai/flows/chat-flow';
+import type { ChatInput, ChatOutput } from '@/ai/flows/chat-flow';
 
 export async function getDailySeerahPrompt() {
   try {

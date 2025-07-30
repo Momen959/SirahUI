@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import type { ChatInput, ChatOutput } from "@/ai/flows/chat-flow";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
@@ -85,7 +86,7 @@ export default function SirahSenseClient({ dailyPrompt }: { dailyPrompt: string 
       madhhab: settings.madhhab ?? undefined,
       recitation: settings.recitation ?? undefined,
       history: chatHistoryForAI,
-    });
+    } as ChatInput);
 
     const aiResponse: Message = {
       id: Date.now().toString(),
