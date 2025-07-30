@@ -17,13 +17,13 @@
     --secondary-foreground: 30 50% 10%;
     --muted: 40 40% 90%; /* Very light sand */
     --muted-foreground: 30 50% 25%;
-    --accent: 40 90% 60%; /* Ornate gold */
+    --accent: 40 50% 80%; /* Softer, muted gold */
     --accent-foreground: 30 50% 10%;
     --destructive: 0 70% 40%; /* Deep red */
     --destructive-foreground: 35 50% 95%;
     --border: 30 30% 80%; /* Soft brown border */
     --input: 30 30% 98%;
-    --ring: 40 90% 60%; /* Ornate gold for focus rings */
+    --ring: 40 70% 55%; /* Richer gold for focus rings */
     --radius: 0.5rem;
 
     /* Sidebar specific vars */
@@ -54,8 +54,8 @@
     --secondary-foreground: 35 25% 90%;
     --muted: 30 15% 20%;
     --muted-foreground: 35 25% 70%;
-    --accent: 40 70% 55%; /* Richer gold */
-    --accent-foreground: 30 50% 10%;
+    --accent: 40 30% 30%; /* Softer, muted gold for dark mode */
+    --accent-foreground: 35 25% 90%;
     --destructive: 0 60% 50%; /* Muted dark red */
     --destructive-foreground: 35 25% 90%;
     --border: 30 15% 25%;
