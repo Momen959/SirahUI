@@ -5,8 +5,6 @@ export default async function ChatPage() {
   const dailyPrompt = await getDailySeerahPrompt();
 
   return (
-    <main>
-      <SirahSenseClient dailyPrompt={dailyPrompt} />
-    </main>
+    <SirahSenseClient dailyPrompt={dailyPrompt} />
   );
 }

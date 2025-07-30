@@ -22,26 +22,26 @@ export function ChatBubble({ message }: { message: Message }) {
   const isUser = message.sender === "user";
 
   return (
-    <div className={cn("flex items-end gap-3", isUser && "flex-row-reverse")}>
-      <Avatar className="h-10 w-10 shrink-0">
-        <AvatarFallback className={cn("bg-primary text-primary-foreground", isUser && "bg-accent text-accent-foreground")}>
+    <div className={cn("flex items-start gap-4", isUser && "flex-row-reverse")}>
+      <Avatar className="h-10 w-10 shrink-0 border">
+        <AvatarFallback className={cn("bg-transparent text-primary", isUser && "bg-accent/20 text-accent-foreground")}>
           {isUser ? <User /> : <SirahSenseLogo className="h-6 w-6" />}
         </AvatarFallback>
       </Avatar>
 
-      <div className={cn("max-w-xl rounded-lg p-4 shadow-md", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
+      <div className={cn("max-w-2xl rounded-lg px-4 py-3 shadow-sm", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
         <p className="whitespace-pre-wrap">{message.text}</p>
         
         {message.sources && message.sources.length > 0 && (
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-3 pt-3 border-t border-primary/10">
             {message.sources.map((source, index) => (
               <Card key={index} className="bg-background/50 border-primary/20">
                 <CardHeader className="flex flex-row items-center gap-3 space-y-0 p-3">
-                  <BookOpen className="h-5 w-5 text-primary" />
+                  <BookOpen className="h-5 w-5 text-accent" />
                   <CardTitle className="text-sm font-semibold text-primary">{source.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 pt-0">
-                  <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground">
+                  <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground">
                     {source.content}
                   </blockquote>
                 </CardContent>
@@ -51,13 +51,13 @@ export function ChatBubble({ message }: { message: Message }) {
         )}
       </div>
 
-      {!isUser && (
-        <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 text-muted-foreground hover:text-primary" onClick={handleSave} aria-label="Save response">
-          <Bookmark className="h-4 w-4" />
-        </Button>
-      )}
-
-      {isUser && <div className="w-8 shrink-0" />}
+      <div className="self-center">
+        {!isUser && (
+          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 text-muted-foreground hover:text-primary" onClick={handleSave} aria-label="Save response">
+            <Bookmark className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
 
     </div>
   );

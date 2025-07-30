@@ -24,12 +24,21 @@
     --border: 30 30% 80%; /* Soft brown border */
     --input: 30 30% 98%;
     --ring: 40 90% 60%; /* Ornate gold for focus rings */
+    --radius: 0.5rem;
+
+    /* Sidebar specific vars */
+    --sidebar-background: 35 50% 97%;
+    --sidebar-foreground: 30 50% 15%;
+    --sidebar-border: 30 30% 85%;
+    --sidebar-accent: 35 45% 90%;
+    --sidebar-accent-foreground: 30 60% 30%;
+    --sidebar-ring: 40 90% 60%;
+
     --chart-1: 30 60% 30%;
     --chart-2: 40 90% 60%;
     --chart-3: 30 40% 50%;
     --chart-4: 20 50% 40%;
     --chart-5: 0 70% 40%;
-    --radius: 0.5rem;
   }
 
   .dark {
@@ -52,6 +61,15 @@
     --border: 30 15% 25%;
     --input: 30 15% 18%;
     --ring: 40 80% 70%;
+
+    /* Sidebar specific vars */
+    --sidebar-background: 30 15% 12%;
+    --sidebar-foreground: 35 25% 90%;
+    --sidebar-border: 30 15% 25%;
+    --sidebar-accent: 30 15% 20%;
+    --sidebar-accent-foreground: 40 80% 70%;
+    --sidebar-ring: 40 80% 70%;
+    
     --chart-1: 40 80% 70%;
     --chart-2: 40 70% 55%;
     --chart-3: 35 25% 70%;
