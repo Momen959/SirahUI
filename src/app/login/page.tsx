@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -32,7 +33,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Ghost } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const signInSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -128,6 +130,19 @@ export default function LoginPage() {
                                 </form>
                             </Form>
                         </CardContent>
+                        <CardFooter className="flex-col gap-4">
+                            <div className="relative w-full flex items-center">
+                                <Separator className="flex-1" />
+                                <span className="px-2 text-xs text-muted-foreground">OR</span>
+                                <Separator className="flex-1" />
+                            </div>
+                            <Button variant="outline" className="w-full" asChild>
+                                <Link href="/chat">
+                                    <Ghost className="mr-2 h-4 w-4" />
+                                    Continue as Guest
+                                </Link>
+                            </Button>
+                        </CardFooter>
                     </Card>
                 </TabsContent>
                 <TabsContent value="signup">
@@ -184,6 +199,19 @@ export default function LoginPage() {
                                 </form>
                             </Form>
                         </CardContent>
+                         <CardFooter className="flex-col gap-4">
+                            <div className="relative w-full flex items-center">
+                                <Separator className="flex-1" />
+                                <span className="px-2 text-xs text-muted-foreground">OR</span>
+                                <Separator className="flex-1" />
+                            </div>
+                            <Button variant="outline" className="w-full" asChild>
+                                <Link href="/chat">
+                                    <Ghost className="mr-2 h-4 w-4" />
+                                    Continue as Guest
+                                </Link>
+                            </Button>
+                        </CardFooter>
                     </Card>
                 </TabsContent>
             </Tabs>
