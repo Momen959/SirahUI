@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ColorThemeToggle } from "@/components/color-theme-toggle";
+import { ProfileDialog } from "@/components/profile-dialog";
 
 export default function ChatLayout({
   children,
@@ -51,14 +52,16 @@ export default function ChatLayout({
         <SidebarFooter>
            <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-primary/20 text-primary">
-                            <User />
-                        </AvatarFallback>
-                    </Avatar>
-                    <span className="text-sm font-medium">Profile</span>
-                </SidebarMenuButton>
+                <ProfileDialog>
+                    <SidebarMenuButton>
+                        <Avatar className="h-8 w-8">
+                            <AvatarFallback className="bg-primary/20 text-primary">
+                                <User />
+                            </AvatarFallback>
+                        </Avatar>
+                        <span className="text-sm font-medium">Profile</span>
+                    </SidebarMenuButton>
+                </ProfileDialog>
               </SidebarMenuItem>
            </SidebarMenu>
         </SidebarFooter>
