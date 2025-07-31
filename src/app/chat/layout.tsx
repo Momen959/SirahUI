@@ -15,12 +15,9 @@ export default function ChatLayout({
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
-          <div className="flex items-center justify-between">
-            <h1 className="font-headline text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">
-              SirahSense
-            </h1>
-             <SidebarTrigger className="ml-auto" />
-          </div>
+          <h1 className="font-headline text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">
+            SirahSense
+          </h1>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -67,9 +64,9 @@ export default function ChatLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm lg:h-[60px] lg:px-6">
-            <SidebarTrigger className="hidden group-data-[state=expanded]:hidden" />
+            <SidebarTrigger className="group-data-[state=expanded]:ml-auto" />
             <div className="flex-1">
-              <h1 className="text-lg font-semibold text-primary">Chat</h1>
+              <h1 className="text-lg font-semibold text-primary group-data-[state=expanded]:hidden">Chat</h1>
             </div>
             <Button variant="outline" size="sm">New Chat</Button>
         </header>
