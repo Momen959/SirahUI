@@ -3,15 +3,9 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Autoplay from "embla-carousel-autoplay";
-import { MessageSquare, Compass, BookOpen, Settings } from "lucide-react";
+import { MessageSquare, Compass, Settings, UserPlus, LogIn, Ghost } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 
@@ -34,10 +28,6 @@ const features = [
 ];
 
 export default function WelcomePage() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true })
-  );
-
   return (
     <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper overflow-hidden">
       <div className="relative mb-6 flex h-32 w-32 items-center justify-center">
@@ -52,35 +42,28 @@ export default function WelcomePage() {
         Your personal AI companion for exploring the life and teachings of the Prophet Muhammad (ﷺ).
       </p>
 
-      <Carousel
-        plugins={[plugin.current]}
-        className="w-full max-w-md mt-8"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
-        <CarouselContent>
-          {features.map((feature, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">
-                <Card className="bg-card/50 border-primary/10">
-                  <CardContent className="flex flex-col items-center justify-center p-6 gap-3 min-h-[180px]">
-                    {feature.icon}
-                    <h3 className="text-xl font-semibold text-primary">{feature.title}</h3>
-                    <p className="text-muted-foreground text-sm">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-
-      <Button asChild size="lg" className="mt-8 py-7 rounded-full">
-        <Link href="/chat">
-          Begin Your Journey
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Link>
-      </Button>
+      <Card className="mt-8 w-full max-w-sm bg-card/50 border-primary/10 p-6">
+        <div className="flex flex-col gap-4">
+            <Button asChild size="lg">
+                <Link href="/login">
+                    <LogIn className="mr-2 h-5 w-5" />
+                    Sign In
+                </Link>
+            </Button>
+            <Button asChild size="lg" variant="secondary">
+                 <Link href="/login?tab=signup">
+                    <UserPlus className="mr-2 h-5 w-5" />
+                    Sign Up
+                </Link>
+            </Button>
+            <Button asChild size="lg" variant="ghost">
+                <Link href="/chat">
+                    <Ghost className="mr-2 h-5 w-5" />
+                    Continue as Guest
+                </Link>
+            </Button>
+        </div>
+      </Card>
     </main>
   );
 }
