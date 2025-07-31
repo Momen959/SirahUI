@@ -2,7 +2,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
-import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X, BrainCircuit } from "lucide-react";
+import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X, BrainCircuit, Sparkles } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,6 +13,12 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
@@ -67,6 +74,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   const [showPerspectives, setShowPerspectives] = useState(false);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const autoplayPlugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -89,18 +97,18 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     }
   };
 
-  const handleSendMessage = async (e: FormEvent) => {
+  const handleSendMessage = async (e: FormEvent, messageText?: string) => {
     e.preventDefault();
-    if (!input.trim() || isTyping) return;
+    const currentInput = messageText || input;
+    if (!currentInput.trim() || isTyping) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       sender: "user",
-      text: input,
+      text: currentInput,
     };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
-    const currentInput = input;
     setInput("");
     setIsTyping(true);
 
@@ -160,6 +168,35 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
       
       <footer className="border-t bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto max-w-4xl p-4">
+            {promptSuggestions && promptSuggestions.length > 0 && messages.length <= 1 && (
+              <div className="mb-4">
+                <Carousel 
+                  plugins={[autoplayPlugin.current]}
+                  className="w-full"
+                  onMouseEnter={autoplayPlugin.current.stop}
+                  onMouseLeave={autoplayPlugin.current.reset}
+                >
+                  <CarouselContent>
+                    {promptSuggestions.map((suggestion, index) => (
+                      <CarouselItem key={index}>
+                          <Card 
+                            className="bg-card/50 border-primary/10 hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer"
+                            onClick={(e) => handleSendMessage(e, suggestion.prompt)}
+                          >
+                            <CardContent className="p-4">
+                              <p className="font-semibold text-primary text-sm flex items-center gap-2">
+                                <Sparkles className="h-4 w-4" />
+                                {suggestion.category}
+                              </p>
+                              <p className="text-muted-foreground text-sm mt-1">{suggestion.prompt}</p>
+                            </CardContent>
+                          </Card>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
+              </div>
+            )}
             {activePerspectives.length > 0 && (
                 <div className="mb-2 flex flex-wrap items-center justify-start gap-2">
                     {activePerspectives.map((p) => (
