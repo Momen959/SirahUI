@@ -12,9 +12,9 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ChatInputSchema = z.object({
-  message: z.string().describe('The user\'s message.'),
-  tone: z.enum(['Concise', 'Reflective']).describe('The desired tone for the AI\'s response.'),
-  madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe('The school of thought to consider in the response.'),
+  message: z.string().describe("The user's message."),
+  tone: z.enum(['Concise', 'Reflective']).describe("The desired tone for the AI's response."),
+  madhhab: z.enum(['Hanafi', 'Maliki', 'Shafi\'i', 'Hanbali', 'Other']).optional().describe("The school of thought to consider in the response."),
   riwayah: z.enum(['Sahih al-Bukhari', 'Sahih Muslim', 'Jami` at-Tirmidhi', 'Sunan an-Nasa\'i', 'Other']).optional().describe('The Hadith collection to reference.'),
   perspectives: z.array(z.enum(["Prophet's Life", "Sahaba", "Qur'an Tafseer", "Life Lessons"])).optional().describe('A list of specific perspectives to answer from.'),
   history: z.array(z.object({
@@ -23,11 +23,12 @@ const ChatInputSchema = z.object({
         text: z.string(),
     })),
   })).optional().describe('The chat history.'),
+  temperature: z.number().min(0).max(1).optional().describe('The temperature for the AI response generation.'),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
 const ChatOutputSchema = z.object({
-  answer: z.string().describe('The AI\'s response to the user.'),
+  answer: z.string().describe("The AI's response to the user."),
   sources: z.array(z.object({
     title: z.string().describe('The title of the source (e.g., Quran 2:255, Sahih al-Bukhari 1).'),
     content: z.string().describe('The content of the source (e.g., the verse or hadith text).'),
@@ -74,6 +75,9 @@ const prompt = ai.definePrompt({
 
   **User's new message:** {{{message}}}
   `,
+  config: {
+    temperature: (input) => input.temperature,
+  }
 });
 
 const chatFlow = ai.defineFlow(

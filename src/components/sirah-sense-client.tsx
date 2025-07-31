@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Slider } from "@/components/ui/slider";
 
 
 export type Tone = "Concise" | "Reflective";
@@ -44,6 +45,7 @@ interface ChatSettings {
   tone: Tone;
   madhhab: Madhhab;
   riwayah: Riwayah;
+  temperature: number;
 }
 
 const perspectiveConfig: { [key in Perspective]: { icon: React.ElementType } } = {
@@ -68,6 +70,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     tone: "Reflective",
     madhhab: null,
     riwayah: null,
+    temperature: 0.7,
   });
   const [activePerspectives, setActivePerspectives] = useState<Perspective[]>([]);
   const [showSettings, setShowSettings] = useState(false);
@@ -124,6 +127,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
       riwayah: settings.riwayah ?? undefined,
       perspectives: activePerspectives,
       history: chatHistoryForAI,
+      temperature: settings.temperature,
     } as ChatInput);
 
     const aiResponse: Message = {
@@ -286,58 +290,73 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
           </div>
           
           {showSettings && (
-            <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4 rounded-lg border bg-card/50 p-4">
-                <div className="flex items-center space-x-2">
-                    <Label htmlFor="tone-switch">Concise</Label>
-                    <Switch
-                        id="tone-switch"
-                        checked={settings.tone === "Reflective"}
-                        onCheckedChange={(checked) => setSettings(s => ({ ...s, tone: checked ? "Reflective" : "Concise" }))}
-                    />
-                    <Label htmlFor="tone-switch">Reflective</Label>
-                </div>
-                
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="justify-between">
-                            <span>{settings.madhhab || "Select Madhhab"}</span>
-                            <ChevronDown className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
-                        {madhhabs.map(m => (
-                            <DropdownMenuItem key={m} onSelect={() => setSettings(s => ({ ...s, madhhab: m }))}>
-                                <Check className={cn("mr-2 h-4 w-4", settings.madhhab === m ? "opacity-100" : "opacity-0")} />
-                                {m}
-                            </DropdownMenuItem>
-                        ))}
-                         <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, madhhab: null }))}>
-                            <Check className={cn("mr-2 h-4 w-4", settings.madhhab === null ? "opacity-100" : "opacity-0")} />
-                            None
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+            <div className="mt-2 space-y-4 rounded-lg border bg-card/50 p-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex items-center space-x-2">
+                      <Label htmlFor="tone-switch">Concise</Label>
+                      <Switch
+                          id="tone-switch"
+                          checked={settings.tone === "Reflective"}
+                          onCheckedChange={(checked) => setSettings(s => ({ ...s, tone: checked ? "Reflective" : "Concise" }))}
+                      />
+                      <Label htmlFor="tone-switch">Reflective</Label>
+                  </div>
+                  
+                  <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                          <Button variant="outline" className="justify-between">
+                              <span>{settings.madhhab || "Select Madhhab"}</span>
+                              <ChevronDown className="h-4 w-4" />
+                          </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56">
+                          {madhhabs.map(m => (
+                              <DropdownMenuItem key={m} onSelect={() => setSettings(s => ({ ...s, madhhab: m }))}>
+                                  <Check className={cn("mr-2 h-4 w-4", settings.madhhab === m ? "opacity-100" : "opacity-0")} />
+                                  {m}
+                              </DropdownMenuItem>
+                          ))}
+                           <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, madhhab: null }))}>
+                              <Check className={cn("mr-2 h-4 w-4", settings.madhhab === null ? "opacity-100" : "opacity-0")} />
+                              None
+                          </DropdownMenuItem>
+                      </DropdownMenuContent>
+                  </DropdownMenu>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="justify-between">
-                            <span>{settings.riwayah || "Select Riwayah"}</span>
-                            <ChevronDown className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
-                        {riwayahs.map(r => (
-                            <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, riwayah: r }))}>
-                                <Check className={cn("mr-2 h-4 w-4", settings.riwayah === r ? "opacity-100" : "opacity-0")} />
-                                {r}
-                            </DropdownMenuItem>
-                        ))}
-                         <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, riwayah: null }))}>
-                            <Check className={cn("mr-2 h-4 w-4", settings.riwayah === null ? "opacity-100" : "opacity-0")} />
-                            None
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                  <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                          <Button variant="outline" className="justify-between">
+                              <span>{settings.riwayah || "Select Riwayah"}</span>
+                              <ChevronDown className="h-4 w-4" />
+                          </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56">
+                          {riwayahs.map(r => (
+                              <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, riwayah: r }))}>
+                                  <Check className={cn("mr-2 h-4 w-4", settings.riwayah === r ? "opacity-100" : "opacity-0")} />
+                                  {r}
+                              </DropdownMenuItem>
+                          ))}
+                           <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, riwayah: null }))}>
+                              <Check className={cn("mr-2 h-4 w-4", settings.riwayah === null ? "opacity-100" : "opacity-0")} />
+                              None
+                          </DropdownMenuItem>
+                      </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <Label>Temperature: <span className="text-muted-foreground font-normal">({settings.temperature})</span></Label>
+                      <span className="text-xs text-muted-foreground">Focused &harr; Creative</span>
+                    </div>
+                    <Slider
+                      value={[settings.temperature]}
+                      onValueChange={(value) => setSettings(s => ({...s, temperature: value[0]}))}
+                      min={0}
+                      max={1}
+                      step={0.1}
+                    />
+                </div>
             </div>
           )}
         </div>
