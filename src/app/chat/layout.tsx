@@ -4,8 +4,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Home, MessageSquare, Book, User, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { ColorThemeToggle } from "@/components/color-theme-toggle";
 import { ProfileDialog } from "@/components/profile-dialog";
 
 export default function ChatLayout({
@@ -22,6 +20,7 @@ export default function ChatLayout({
               SirahSense
             </h1>
           </div>
+           <SidebarTrigger className="ml-auto hidden md:flex" />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -63,6 +62,12 @@ export default function ChatLayout({
                     </SidebarMenuButton>
                 </ProfileDialog>
               </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton>
+                    <LogOut />
+                    <span>Sign Out</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
            </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
@@ -72,8 +77,6 @@ export default function ChatLayout({
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-primary">Chat</h1>
             </div>
-            <ColorThemeToggle />
-            <ThemeToggle />
             <Button variant="outline" size="sm">New Chat</Button>
         </header>
         {children}

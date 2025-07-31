@@ -3,7 +3,7 @@
 
 import * as React from "react"
 
-type ColorTheme = "theme-green" | "theme-brown";
+type ColorTheme = "theme-green" | "theme-brown" | "theme-blue" | "theme-purple";
 
 type ColorThemeProviderProps = {
   children: React.ReactNode
@@ -29,27 +29,20 @@ export function ColorThemeProvider({
   storageKey = "sirasense-ui-theme",
   ...props
 }: ColorThemeProviderProps) {
-  const [theme, setTheme] = React.useState<ColorTheme>(defaultTheme)
-
-  React.useEffect(() => {
-    const storedTheme = localStorage.getItem(storageKey) as ColorTheme | null;
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-  }, [storageKey]);
+  const [theme, setTheme] = React.useState<ColorTheme>(
+    () => (typeof window !== 'undefined' ? (localStorage.getItem(storageKey) as ColorTheme) : undefined) || defaultTheme
+  )
 
   React.useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove("theme-green", "theme-brown")
+    root.classList.remove("theme-green", "theme-brown", "theme-blue", "theme-purple")
     root.classList.add(theme)
-  }, [theme])
+    localStorage.setItem(storageKey, theme)
+  }, [theme, storageKey])
 
   const value = {
     theme,
-    setTheme: (theme: ColorTheme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
-    },
+    setTheme,
   }
 
   return (

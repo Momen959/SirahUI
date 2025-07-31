@@ -155,12 +155,18 @@ function ThemeSelector() {
 function ColorThemeSelector() {
     const { theme, setTheme } = useColorTheme();
     return (
-        <div className="flex gap-2">
+        <div className="grid grid-cols-2 gap-2">
             <Button variant={theme === 'theme-green' ? 'default' : 'outline'} onClick={() => setTheme('theme-green')} className="w-full">
                 <Palette className="mr-2 h-4 w-4"/> Green
             </Button>
             <Button variant={theme === 'theme-brown' ? 'default' : 'outline'} onClick={() => setTheme('theme-brown')} className="w-full">
                 <Palette className="mr-2 h-4 w-4"/> Brown
+            </Button>
+            <Button variant={theme === 'theme-blue' ? 'default' : 'outline'} onClick={() => setTheme('theme-blue')} className="w-full">
+                <Palette className="mr-2 h-4 w-4"/> Blue
+            </Button>
+            <Button variant={theme === 'theme-purple' ? 'default' : 'outline'} onClick={() => setTheme('theme-purple')} className="w-full">
+                <Palette className="mr-2 h-4 w-4"/> Purple
             </Button>
         </div>
     )
