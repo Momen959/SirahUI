@@ -67,7 +67,7 @@ export default function ChatLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm lg:h-[60px] lg:px-6">
-            <SidebarTrigger />
+            <SidebarTrigger className="md:hidden group-data-[state=collapsed]:md:flex" />
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-primary">Chat</h1>
             </div>

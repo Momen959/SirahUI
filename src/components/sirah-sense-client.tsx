@@ -221,7 +221,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a question about the Seerah..."
-                className="min-h-[52px] resize-none rounded-2xl border-2 border-border bg-card py-3 pl-5 pr-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="min-h-[52px] resize-none rounded-2xl border-2 border-border bg-card py-[14px] pl-5 pr-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
