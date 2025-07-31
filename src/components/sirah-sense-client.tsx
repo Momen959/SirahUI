@@ -232,7 +232,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
               <Button
                 type="submit"
                 size="icon"
-                className="absolute bottom-2 right-2 h-9 w-9 shrink-0 rounded-full"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 shrink-0 rounded-full"
                 disabled={!input.trim() || isTyping}
               >
                 <SendHorizontal className="h-5 w-5" />
