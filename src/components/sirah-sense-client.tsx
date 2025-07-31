@@ -23,7 +23,6 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Slider } from "@/components/ui/slider";
 import { AdvancedSettingsDialog } from "./advanced-settings-dialog";
 import { Separator } from "./ui/separator";
 
@@ -47,10 +46,10 @@ interface ChatSettings {
   tone: Tone;
   madhhab: Madhhab;
   riwayah: Riwayah;
-  temperature: number;
 }
 
 export interface AdvancedSettings {
+    temperature: number;
     topP: number;
     topK: number;
     maxOutputTokens: number;
@@ -82,9 +81,9 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     tone: "Reflective",
     madhhab: null,
     riwayah: null,
-    temperature: 0.7,
   });
   const [advancedSettings, setAdvancedSettings] = useState<AdvancedSettings>({
+      temperature: 0.7,
       topP: 0.95,
       topK: 40,
       maxOutputTokens: 1024,
@@ -150,7 +149,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
       riwayah: settings.riwayah ?? undefined,
       perspectives: activePerspectives,
       history: chatHistoryForAI,
-      temperature: settings.temperature,
       ...advancedSettings,
     } as ChatInput);
 
@@ -366,19 +364,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                           </DropdownMenuItem>
                       </DropdownMenuContent>
                   </DropdownMenu>
-                </div>
-                <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <Label>Temperature: <span className="text-muted-foreground font-normal">({settings.temperature})</span></Label>
-                      <span className="text-xs text-muted-foreground">Focused &harr; Creative</span>
-                    </div>
-                    <Slider
-                      value={[settings.temperature]}
-                      onValueChange={(value) => setSettings(s => ({...s, temperature: value[0]}))}
-                      min={0}
-                      max={1}
-                      step={0.1}
-                    />
                 </div>
                 <Separator />
                 <AdvancedSettingsDialog settings={advancedSettings} onSettingsChange={setAdvancedSettings}>

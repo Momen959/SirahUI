@@ -5,7 +5,6 @@ import { Home, MessageSquare, User, LogOut, WandSparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProfileDialog } from "@/components/profile-dialog";
-import { AdvancedSettingsDialog } from "@/components/advanced-settings-dialog";
 
 export default function ChatLayout({
   children,
@@ -16,10 +15,13 @@ export default function ChatLayout({
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="flex items-center justify-between p-2">
-          <h1 className="font-headline text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">
-            SirahSense
-          </h1>
-          <SidebarTrigger className="group-data-[collapsible=icon]:hidden" />
+           <div className="flex items-center gap-2">
+              <SidebarTrigger className="group-data-[state=expanded]:hidden" />
+              <h1 className="font-headline text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">
+                SirahSense
+              </h1>
+           </div>
+          <SidebarTrigger className="group-data-[collapsible=icon]:hidden group-data-[state=collapsed]:hidden" />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -55,7 +57,6 @@ export default function ChatLayout({
                     </SidebarMenuButton>
                 </ProfileDialog>
               </SidebarMenuItem>
-              {/* The AdvancedSettingsDialog is now triggered from within the SirahSenseClient */}
                <SidebarMenuItem>
                 <SidebarMenuButton>
                     <LogOut />

@@ -17,7 +17,6 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import type { AdvancedSettings } from "@/components/sirah-sense-client";
-import { WandSparkles } from "lucide-react";
 
 type AdvancedSettingsDialogProps = {
   children: React.ReactNode;
@@ -49,7 +48,7 @@ export function AdvancedSettingsDialog({ children, settings, onSettingsChange }:
     if (settings) {
       setLocalSettings(settings);
     }
-  }, [settings]);
+  }, [settings, isOpen]);
 
   const handleSave = () => {
     onSettingsChange(localSettings);
@@ -67,10 +66,9 @@ export function AdvancedSettingsDialog({ children, settings, onSettingsChange }:
     }));
   };
   
-  // Prevent rendering if settings are not yet available
   if (!localSettings) {
       return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>{children}</DialogTrigger>
         </Dialog>
       );
@@ -87,6 +85,21 @@ export function AdvancedSettingsDialog({ children, settings, onSettingsChange }:
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
+             <div className="space-y-4">
+                <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <Label>Temperature: <span className="text-muted-foreground font-normal">({localSettings.temperature})</span></Label>
+                      <span className="text-xs text-muted-foreground">Focused &harr; Creative</span>
+                    </div>
+                    <Slider
+                      value={[localSettings.temperature]}
+                      onValueChange={(value) => setLocalSettings(s => ({...s, temperature: value[0]}))}
+                      min={0}
+                      max={1}
+                      step={0.1}
+                    />
+                </div>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                  <div className="space-y-4">
                     <div className="space-y-2">
