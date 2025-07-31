@@ -1,10 +1,11 @@
 
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarFooter } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Home, MessageSquare, User, LogOut } from "lucide-react";
+import { Home, MessageSquare, User, LogOut, WandSparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProfileDialog } from "@/components/profile-dialog";
+import { AdvancedSettingsDialog } from "@/components/advanced-settings-dialog";
 
 export default function ChatLayout({
   children,
@@ -14,10 +15,11 @@ export default function ChatLayout({
   return (
     <SidebarProvider>
       <Sidebar>
-        <SidebarHeader>
+        <SidebarHeader className="flex items-center justify-between p-2">
           <h1 className="font-headline text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">
             SirahSense
           </h1>
+          <SidebarTrigger className="group-data-[collapsible=icon]:hidden" />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -53,6 +55,14 @@ export default function ChatLayout({
                     </SidebarMenuButton>
                 </ProfileDialog>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <AdvancedSettingsDialog>
+                    <SidebarMenuButton>
+                        <WandSparkles />
+                        <span>Advanced</span>
+                    </SidebarMenuButton>
+                </AdvancedSettingsDialog>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton>
                     <LogOut />
@@ -64,7 +74,7 @@ export default function ChatLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm lg:h-[60px] lg:px-6">
-            <SidebarTrigger className="group-data-[state=expanded]:ml-auto" />
+            <SidebarTrigger className="group-data-[state=expanded]:ml-auto group-data-[collapsible=none]:hidden group-data-[state=expanded]:hidden" />
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-primary group-data-[state=expanded]:hidden">Chat</h1>
             </div>
