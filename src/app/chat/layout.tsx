@@ -1,7 +1,7 @@
 
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarFooter } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Home, MessageSquare, Book, User, Settings, LogOut } from "lucide-react";
+import { Home, MessageSquare, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProfileDialog } from "@/components/profile-dialog";
@@ -67,7 +67,7 @@ export default function ChatLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm lg:h-[60px] lg:px-6">
-            <SidebarTrigger className="md:hidden group-data-[state=collapsed]:md:flex" />
+            <SidebarTrigger className="hidden group-data-[state=collapsed]:block" />
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-primary">Chat</h1>
             </div>
