@@ -61,13 +61,13 @@ export default function WelcomePage() {
 
       <Carousel
         plugins={[plugin.current]}
-        className="w-full max-w-md mt-8"
+        className="w-full max-w-4xl mt-8"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {features.map((feature, index) => (
-            <CarouselItem key={index}>
+            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
               <div className="p-1">
                 <Card className="bg-card/50 border-primary/10">
                   <CardContent className="flex flex-col items-center justify-center p-6 aspect-square gap-3">
