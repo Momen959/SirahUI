@@ -25,6 +25,7 @@ import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Slider } from "@/components/ui/slider";
 import { AdvancedSettingsDialog } from "./advanced-settings-dialog";
+import { Separator } from "./ui/separator";
 
 
 export type Tone = "Concise" | "Reflective";
@@ -169,9 +170,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
 
   return (
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
-      <AdvancedSettingsDialog settings={advancedSettings} onSettingsChange={setAdvancedSettings}>
-        <button className="hidden" />
-      </AdvancedSettingsDialog>
       <ScrollArea className="flex-1" ref={scrollAreaRef}>
         <div className="container mx-auto max-w-4xl p-4 md:p-6">            
           <div className="space-y-6">
@@ -382,6 +380,13 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                       step={0.1}
                     />
                 </div>
+                <Separator />
+                <AdvancedSettingsDialog settings={advancedSettings} onSettingsChange={setAdvancedSettings}>
+                    <Button variant="outline" className="w-full">
+                        <WandSparkles className="mr-2 h-4 w-4" />
+                        Advanced AI Settings
+                    </Button>
+                </AdvancedSettingsDialog>
             </div>
           )}
         </div>

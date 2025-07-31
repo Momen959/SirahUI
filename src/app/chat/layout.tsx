@@ -55,14 +55,7 @@ export default function ChatLayout({
                     </SidebarMenuButton>
                 </ProfileDialog>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <AdvancedSettingsDialog>
-                    <SidebarMenuButton>
-                        <WandSparkles />
-                        <span>Advanced</span>
-                    </SidebarMenuButton>
-                </AdvancedSettingsDialog>
-              </SidebarMenuItem>
+              {/* The AdvancedSettingsDialog is now triggered from within the SirahSenseClient */}
                <SidebarMenuItem>
                 <SidebarMenuButton>
                     <LogOut />
@@ -74,9 +67,11 @@ export default function ChatLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm lg:h-[60px] lg:px-6">
-            <SidebarTrigger className="group-data-[state=expanded]:ml-auto group-data-[collapsible=none]:hidden group-data-[state=expanded]:hidden" />
             <div className="flex-1">
-              <h1 className="text-lg font-semibold text-primary group-data-[state=expanded]:hidden">Chat</h1>
+                <div className="flex items-center gap-2">
+                    <SidebarTrigger className="group-data-[state=expanded]:hidden" />
+                    <h1 className="text-lg font-semibold text-primary">Chat</h1>
+                </div>
             </div>
             <Button variant="outline" size="sm">New Chat</Button>
         </header>

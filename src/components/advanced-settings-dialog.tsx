@@ -17,6 +17,7 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import type { AdvancedSettings } from "@/components/sirah-sense-client";
+import { WandSparkles } from "lucide-react";
 
 type AdvancedSettingsDialogProps = {
   children: React.ReactNode;
@@ -42,9 +43,12 @@ const safetyThresholds = [
 export function AdvancedSettingsDialog({ children, settings, onSettingsChange }: AdvancedSettingsDialogProps) {
   const { toast } = useToast();
   const [localSettings, setLocalSettings] = React.useState(settings);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    setLocalSettings(settings);
+    if (settings) {
+      setLocalSettings(settings);
+    }
   }, [settings]);
 
   const handleSave = () => {
@@ -53,6 +57,7 @@ export function AdvancedSettingsDialog({ children, settings, onSettingsChange }:
       title: "Settings Saved",
       description: "Your advanced AI settings have been updated.",
     });
+    setIsOpen(false);
   };
 
   const handleSafetyChange = (category: typeof safetyCategories[number]['value'], threshold: typeof safetyThresholds[number]['value']) => {
@@ -61,9 +66,18 @@ export function AdvancedSettingsDialog({ children, settings, onSettingsChange }:
         safetySettings: prev.safetySettings.map(s => s.category === category ? { ...s, threshold } : s)
     }));
   };
+  
+  // Prevent rendering if settings are not yet available
+  if (!localSettings) {
+      return (
+        <Dialog>
+            <DialogTrigger asChild>{children}</DialogTrigger>
+        </Dialog>
+      );
+  }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
@@ -138,6 +152,7 @@ export function AdvancedSettingsDialog({ children, settings, onSettingsChange }:
         </div>
 
         <DialogFooter>
+            <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>Cancel</Button>
             <Button type="submit" onClick={handleSave}>Save Changes</Button>
         </DialogFooter>
       </DialogContent>
