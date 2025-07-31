@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
-import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X, BrainCircuit, Sparkles, WandSparkles } from "lucide-react";
+import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X, BrainCircuit, Sparkles } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -23,9 +23,7 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AdvancedSettingsDialog } from "./advanced-settings-dialog";
-import { Separator } from "./ui/separator";
-
+import { useAdvancedSettings } from "./advanced-settings-provider";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
@@ -46,17 +44,6 @@ interface ChatSettings {
   tone: Tone;
   madhhab: Madhhab;
   riwayah: Riwayah;
-}
-
-export interface AdvancedSettings {
-    temperature: number;
-    topP: number;
-    topK: number;
-    maxOutputTokens: number;
-    safetySettings: {
-        category: 'HARM_CATEGORY_HATE_SPEECH' | 'HARM_CATEGORY_SEXUALLY_EXPLICIT' | 'HARM_CATEGORY_HARASSMENT' | 'HARM_CATEGORY_DANGEROUS_CONTENT';
-        threshold: 'BLOCK_NONE' | 'BLOCK_ONLY_HIGH' | 'BLOCK_MEDIUM_AND_ABOVE' | 'BLOCK_LOW_AND_ABOVE';
-    }[];
 }
 
 const perspectiveConfig: { [key in Perspective]: { icon: React.ElementType } } = {
@@ -82,18 +69,8 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     madhhab: null,
     riwayah: null,
   });
-  const [advancedSettings, setAdvancedSettings] = useState<AdvancedSettings>({
-      temperature: 0.7,
-      topP: 0.95,
-      topK: 40,
-      maxOutputTokens: 1024,
-      safetySettings: [
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-      ],
-  });
+  const { advancedSettings } = useAdvancedSettings();
+
   const [activePerspectives, setActivePerspectives] = useState<Perspective[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [showPerspectives, setShowPerspectives] = useState(false);
@@ -365,13 +342,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                       </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <Separator />
-                <AdvancedSettingsDialog settings={advancedSettings} onSettingsChange={setAdvancedSettings}>
-                    <Button variant="outline" className="w-full">
-                        <WandSparkles className="mr-2 h-4 w-4" />
-                        Advanced AI Settings
-                    </Button>
-                </AdvancedSettingsDialog>
             </div>
           )}
         </div>

@@ -12,11 +12,6 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const SafetySettingSchema = z.object({
-    category: z.enum(['HARM_CATEGORY_HATE_SPEECH', 'HARM_CATEGORY_SEXUALLY_EXPLICIT', 'HARM_CATEGORY_HARASSMENT', 'HARM_CATEGORY_DANGEROUS_CONTENT']),
-    threshold: z.enum(['BLOCK_NONE', 'BLOCK_ONLY_HIGH', 'BLOCK_MEDIUM_AND_ABOVE', 'BLOCK_LOW_AND_ABOVE']),
-});
-
 const ChatInputSchema = z.object({
   message: z.string().describe("The user's message."),
   tone: z.enum(['Concise', 'Reflective']).describe("The desired tone for the AI's response."),
@@ -33,7 +28,6 @@ const ChatInputSchema = z.object({
   topP: z.number().min(0).max(1).optional().describe('The top-p sampling parameter.'),
   topK: z.number().min(1).max(100).optional().describe('The top-k sampling parameter.'),
   maxOutputTokens: z.number().min(1).optional().describe('The maximum number of tokens to generate.'),
-  safetySettings: z.array(SafetySettingSchema).optional().describe('Content safety settings.'),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
@@ -90,7 +84,6 @@ const prompt = ai.definePrompt({
     topP: (input) => input.topP,
     topK: (input) => input.topK,
     maxOutputTokens: (input) => input.maxOutputTokens,
-    safetySettings: (input) => input.safetySettings,
   }
 });
 
