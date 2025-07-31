@@ -6,7 +6,6 @@ import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 import { MessageSquare, Compass, BookOpen, Settings } from "lucide-react";
 
-import { SirahSenseLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -48,7 +47,6 @@ export default function WelcomePage() {
     <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper overflow-hidden">
       <div className="relative mb-6 flex h-32 w-32 items-center justify-center">
         <div className="absolute inset-0 z-0 rounded-full bg-primary/10 blur-2xl"></div>
-        <SirahSenseLogo className="relative z-10 h-20 w-20 text-primary" />
       </div>
 
       <h1 className="font-headline text-5xl font-bold text-primary">

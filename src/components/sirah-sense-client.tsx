@@ -2,8 +2,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
-import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X } from "lucide-react";
-import { SirahSenseLogo } from "@/components/icons";
+import { SendHorizontal, Settings, ChevronDown, Check, BookOpen, User, Users, Lightbulb, Compass, X, BrainCircuit } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 
 export type Tone = "Concise" | "Reflective";
@@ -144,7 +144,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                 <div className="flex items-start gap-4">
                     <Avatar className="h-10 w-10 shrink-0 border">
                       <AvatarFallback className="bg-transparent text-primary">
-                        <SirahSenseLogo className="h-6 w-6 animate-pulse" />
+                        <BrainCircuit className="h-6 w-6 animate-pulse" />
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex items-center gap-1.5 rounded-lg bg-card px-4 py-3 shadow-sm border text-card-foreground">

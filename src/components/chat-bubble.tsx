@@ -1,3 +1,4 @@
+
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -5,8 +6,7 @@ import type { Message } from "@/components/sirah-sense-client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { SirahSenseLogo } from "@/components/icons";
-import { User, Bookmark, BookOpen } from "lucide-react";
+import { User, Bookmark, BookOpen, BrainCircuit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export function ChatBubble({ message }: { message: Message }) {
@@ -25,7 +25,7 @@ export function ChatBubble({ message }: { message: Message }) {
     <div className={cn("flex items-start gap-4", isUser && "flex-row-reverse")}>
       <Avatar className="h-10 w-10 shrink-0 border">
         <AvatarFallback className={cn("bg-transparent text-primary", isUser && "bg-accent/20 text-accent-foreground")}>
-          {isUser ? <User /> : <SirahSenseLogo className="h-6 w-6" />}
+          {isUser ? <User /> : <BrainCircuit className="h-6 w-6" />}
         </AvatarFallback>
       </Avatar>
 

@@ -1,5 +1,5 @@
+
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarFooter } from "@/components/ui/sidebar";
-import { SirahSenseLogo } from "@/components/icons";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Home, MessageSquare, Book, User, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +17,6 @@ export default function ChatLayout({
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2">
-            <SirahSenseLogo className="h-8 w-8 text-primary" />
             <h1 className="font-headline text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">
               SirahSense
             </h1>
