@@ -24,10 +24,6 @@ const ChatInputSchema = z.object({
         text: z.string(),
     })),
   })).optional().describe('The chat history.'),
-  temperature: z.number().min(0).max(1).optional().describe('The temperature for the AI response generation.'),
-  topP: z.number().min(0).max(1).optional().describe('The top-p sampling parameter.'),
-  topK: z.number().min(1).max(100).optional().describe('The top-k sampling parameter.'),
-  maxOutputTokens: z.number().min(1).optional().describe('The maximum number of tokens to generate.'),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
@@ -79,12 +75,6 @@ const prompt = ai.definePrompt({
 
   **User's new message:** {{{message}}}
   `,
-  config: {
-    temperature: (input) => input.temperature,
-    topP: (input) => input.topP,
-    topK: (input) => input.topK,
-    maxOutputTokens: (input) => input.maxOutputTokens,
-  }
 });
 
 const chatFlow = ai.defineFlow(

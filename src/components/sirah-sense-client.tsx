@@ -23,7 +23,6 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useAdvancedSettings } from "./advanced-settings-provider";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
@@ -69,7 +68,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     madhhab: null,
     riwayah: null,
   });
-  const { advancedSettings } = useAdvancedSettings();
 
   const [activePerspectives, setActivePerspectives] = useState<Perspective[]>([]);
   const [showSettings, setShowSettings] = useState(false);
@@ -126,7 +124,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
       riwayah: settings.riwayah ?? undefined,
       perspectives: activePerspectives,
       history: chatHistoryForAI,
-      ...advancedSettings,
     } as ChatInput);
 
     const aiResponse: Message = {

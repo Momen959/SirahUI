@@ -3,12 +3,10 @@
 
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarFooter } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Home, MessageSquare, User, LogOut, WandSparkles } from "lucide-react";
+import { Home, MessageSquare, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProfileDialog } from "@/components/profile-dialog";
-import { AdvancedSettingsDialog } from "@/components/advanced-settings-dialog";
-import { AdvancedSettingsProvider } from "@/components/advanced-settings-provider";
 
 export default function ChatLayout({
   children,
@@ -16,7 +14,6 @@ export default function ChatLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AdvancedSettingsProvider>
       <SidebarProvider>
         <Sidebar>
           <SidebarHeader className="p-2">
@@ -26,7 +23,6 @@ export default function ChatLayout({
                   SirahSense
                 </h1>
               </div>
-              <SidebarTrigger className="group-data-[state=expanded]:block group-data-[state=collapsed]:hidden" />
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -51,14 +47,6 @@ export default function ChatLayout({
           </SidebarContent>
           <SidebarFooter>
             <SidebarMenu>
-               <SidebarMenuItem>
-                <AdvancedSettingsDialog>
-                    <SidebarMenuButton>
-                        <WandSparkles />
-                        <span className="text-sm font-medium">Advanced</span>
-                    </SidebarMenuButton>
-                </AdvancedSettingsDialog>
-              </SidebarMenuItem>
               <SidebarMenuItem>
                 <ProfileDialog>
                     <SidebarMenuButton>
@@ -93,6 +81,5 @@ export default function ChatLayout({
           {children}
         </SidebarInset>
       </SidebarProvider>
-    </AdvancedSettingsProvider>
   );
 }
