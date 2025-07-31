@@ -27,11 +27,6 @@ const features = [
     description: "Explore topics from various viewpoints, including the Prophet's life, the Sahaba, and more.",
   },
   {
-    icon: <BookOpen className="h-8 w-8 text-primary" />,
-    title: "Authentic Sources",
-    description: "Responses are backed by references from the Qur'an and major Hadith collections.",
-  },
-  {
     icon: <Settings className="h-8 w-8 text-primary" />,
     title: "Customizable AI",
     description: "Adjust the AI's tone and scholarly lens to tailor the conversation to your needs.",
@@ -68,7 +63,7 @@ export default function WelcomePage() {
             <CarouselItem key={index}>
               <div className="p-1">
                 <Card className="bg-card/50 border-primary/10">
-                  <CardContent className="flex flex-col items-center justify-center p-6 gap-3 min-h-[220px]">
+                  <CardContent className="flex flex-col items-center justify-center p-6 gap-3 min-h-[180px]">
                     {feature.icon}
                     <h3 className="text-xl font-semibold text-primary">{feature.title}</h3>
                     <p className="text-muted-foreground text-sm">{feature.description}</p>
@@ -80,7 +75,7 @@ export default function WelcomePage() {
         </CarouselContent>
       </Carousel>
 
-      <Button asChild size="lg" className="mt-8">
+      <Button asChild size="lg" className="mt-8 py-7 rounded-full">
         <Link href="/chat">
           Begin Your Journey
           <ArrowRight className="ml-2 h-5 w-5" />
