@@ -31,7 +31,7 @@ export function ChatBubble({ message }: { message: Message }) {
         </AvatarFallback>
       </Avatar>
 
-      <div className={cn("max-w-2xl w-full rounded-lg px-4 py-3 shadow-sm", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
+      <div className={cn("max-w-2xl w-full rounded-2xl px-4 py-3 shadow-sm", isUser ? "bg-primary text-primary-foreground" : "bg-card border text-card-foreground")}>
         <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-0">
           <ReactMarkdown>{message.text}</ReactMarkdown>
         </div>
