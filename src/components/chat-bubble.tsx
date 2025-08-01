@@ -4,6 +4,7 @@
 import { cn } from "@/lib/utils";
 import type { Message } from "@/components/sirah-sense-client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Bookmark, BookOpen, BrainCircuit } from "lucide-react";
@@ -29,24 +30,35 @@ export function ChatBubble({ message }: { message: Message }) {
         </AvatarFallback>
       </Avatar>
 
-      <div className={cn("max-w-2xl rounded-lg px-4 py-3 shadow-sm", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
+      <div className={cn("max-w-2xl w-full rounded-lg px-4 py-3 shadow-sm", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
         <p className="whitespace-pre-wrap">{message.text}</p>
         
         {message.sources && message.sources.length > 0 && (
           <div className="mt-4 space-y-3 pt-3 border-t border-primary/10">
-            {message.sources.map((source, index) => (
-              <Card key={index} className="bg-background/50 border-primary/20">
-                <CardHeader className="flex flex-row items-center gap-3 space-y-0 p-3">
-                  <BookOpen className="h-5 w-5 text-accent" />
-                  <CardTitle className="text-sm font-semibold text-primary">{source.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 pt-0">
-                  <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground">
-                    {source.content}
-                  </blockquote>
-                </CardContent>
-              </Card>
-            ))}
+            <Accordion type="multiple" className="w-full">
+                {message.sources.map((source, index) => (
+                <Card key={index} className="bg-background/50 border-primary/20">
+                    <AccordionItem value={`item-${index}`} className="border-b-0">
+                        <AccordionTrigger className="p-3">
+                            <div className="flex flex-row items-center gap-3 space-y-0">
+                                <BookOpen className="h-5 w-5 text-accent shrink-0" />
+                                <span className="text-sm font-semibold text-primary text-left">{source.title}</span>
+                            </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="px-3 pb-3">
+                           <div className="space-y-2">
+                             <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground">
+                                {source.englishContent}
+                            </blockquote>
+                            <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground rtl" dir="rtl">
+                                {source.arabicContent}
+                            </blockquote>
+                           </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Card>
+                ))}
+            </Accordion>
           </div>
         )}
       </div>

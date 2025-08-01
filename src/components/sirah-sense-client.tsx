@@ -35,7 +35,8 @@ export interface Message {
   sender: "user" | "ai";
   sources?: {
     title: string;
-    content: string;
+    englishContent: string;
+    arabicContent: string;
   }[];
 }
 

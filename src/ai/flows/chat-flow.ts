@@ -31,8 +31,9 @@ const ChatOutputSchema = z.object({
   answer: z.string().describe("The AI's response to the user."),
   sources: z.array(z.object({
     title: z.string().describe('The title of the source (e.g., Quran 2:255, Sahih al-Bukhari 1).'),
-    content: z.string().describe('The content of the source (e.g., the verse or hadith text).'),
-  })).optional().describe('A list of sources used to generate the response.'),
+    englishContent: z.string().describe('The English translation of the source text.'),
+    arabicContent: z.string().describe('The original Arabic text of the source.'),
+  })).optional().describe('A list of sources used to generate the response, with both English and Arabic text.'),
 });
 export type ChatOutput = z.infer<typeof ChatOutputSchema>;
 
@@ -66,7 +67,7 @@ const prompt = ai.definePrompt({
       -   Provide a clear, helpful, and well-structured response in the requested tone.
       -   If the query is in a language other than English (especially Arabic), try to respond in that language.
       -   Be respectful and avoid controversial or sectarian opinions. Stick to widely accepted knowledge.
-  5.  **Cite Sources:** List the primary sources (Quranic verses, Hadith) you used to formulate your answer in the 'sources' field.
+  5.  **Cite Sources:** List the primary sources (Quranic verses, Hadith) you used to formulate your answer in the 'sources' field. For each source, you MUST provide both the original Arabic text and the English translation.
 
   **Chat History:**
   {{#each history}}
