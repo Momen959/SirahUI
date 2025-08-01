@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Bookmark, BookOpen, BrainCircuit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ReactMarkdown from "react-markdown";
 
 export function ChatBubble({ message }: { message: Message }) {
   const { toast } = useToast();
@@ -31,7 +32,9 @@ export function ChatBubble({ message }: { message: Message }) {
       </Avatar>
 
       <div className={cn("max-w-2xl w-full rounded-lg px-4 py-3 shadow-sm", isUser ? "rounded-br-none bg-primary text-primary-foreground" : "rounded-bl-none bg-card border text-card-foreground")}>
-        <p className="whitespace-pre-wrap">{message.text}</p>
+        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-0">
+          <ReactMarkdown>{message.text}</ReactMarkdown>
+        </div>
         
         {message.sources && message.sources.length > 0 && (
           <div className="mt-4 space-y-3 pt-3 border-t border-primary/10">
