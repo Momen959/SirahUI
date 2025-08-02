@@ -180,7 +180,6 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                   className="w-full"
                   onMouseEnter={autoplayPlugin.current.stop}
                   onMouseLeave={autoplayPlugin.current.reset}
-                  opts={{ direction: language === 'ar' ? 'rtl' : 'ltr' }}
                 >
                   <CarouselContent>
                     {promptSuggestions.map((suggestion, index) => (

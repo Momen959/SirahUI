@@ -56,7 +56,7 @@ export function ChatBubble({ message }: { message: Message }) {
                              <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground" dir="ltr">
                                 {source.englishContent}
                             </blockquote>
-                            <blockquote className="border-r-2 border-l-0 border-primary/50 pr-3 text-sm text-muted-foreground" dir="rtl">
+                            <blockquote className="border-l-0 border-r-2 border-primary/50 pr-3 text-sm text-muted-foreground" dir="rtl">
                                 {source.arabicContent}
                             </blockquote>
                            </div>

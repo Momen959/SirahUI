@@ -63,7 +63,6 @@ export default function WelcomePage() {
           className="w-full"
           onMouseEnter={autoplayPlugin.current.stop}
           onMouseLeave={autoplayPlugin.current.reset}
-          opts={{ direction: language === 'ar' ? 'rtl' : 'ltr' }}
         >
           <CarouselContent>
             {features.map((feature, index) => (
