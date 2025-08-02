@@ -64,7 +64,7 @@ export default function WelcomePage() {
   }
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper overflow-hidden">
+    <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper">
       <div className="relative mb-6 flex h-32 w-32 items-center justify-center">
         <div className="absolute inset-0 z-0 rounded-full bg-primary/10 blur-2xl"></div>
       </div>
@@ -84,6 +84,7 @@ export default function WelcomePage() {
           className="w-full"
           onMouseEnter={autoplayPlugin.current.stop}
           onMouseLeave={autoplayPlugin.current.reset}
+          dir="ltr"
         >
           <CarouselContent>
             {features.map((feature, index) => (
