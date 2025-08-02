@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -57,6 +58,11 @@ function LoginClient() {
     const { language } = useLanguage();
     const t = translations[language];
     const defaultTab = searchParams.get('tab') || "signin";
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const signInForm = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
@@ -79,6 +85,10 @@ function LoginClient() {
         toast({ title: t.login.toasts.signUpSuccessTitle, description: t.login.toasts.signUpSuccessDescription});
         router.push("/chat");
     };
+
+    if (!isMounted) {
+        return null;
+    }
 
     return (
         <main className="flex h-screen flex-col items-center justify-center p-4 paper">
