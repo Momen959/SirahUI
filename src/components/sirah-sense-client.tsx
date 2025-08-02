@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatBubble } from "@/components/chat-bubble";
-import { getChatResponse } from "@/app/actions";
+import { getChatResponse, getPromptSuggestions } from "@/app/actions";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useLanguage } from "./language-provider";
+import { useLanguage, type Language } from "./language-provider";
 import { translations } from "@/lib/translations";
 
 export type Tone = "Concise" | "Reflective";
@@ -49,19 +49,21 @@ interface ChatSettings {
   riwayah: Riwayah;
 }
 
-const perspectiveConfig: { [key in Perspective]: { icon: React.ElementType } } = {
+const perspectiveConfig: { [key in Perspective | string]: { icon: React.ElementType } } = {
     "Prophet's Life": { icon: User },
     "Sahaba": { icon: Users },
     "Qur'an Tafseer": { icon: BookOpen },
+    "Qur'an": { icon: BookOpen },
     "Life Lessons": { icon: Lightbulb },
 };
-const perspectives = Object.keys(perspectiveConfig) as Perspective[];
+const perspectives = Object.keys(perspectiveConfig).filter(p => p !== "Qur'an") as Perspective[];
 
-export default function SirahSenseClient({ promptSuggestions }: { promptSuggestions: PromptSuggestion[] }) {
+export default function SirahSenseClient({ promptSuggestions: initialPromptSuggestions }: { promptSuggestions: PromptSuggestion[] }) {
   const { language } = useLanguage();
   const t = translations[language];
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const [promptSuggestions, setPromptSuggestions] = useState<PromptSuggestion[]>(initialPromptSuggestions);
   
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -76,7 +78,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   const [showPerspectives, setShowPerspectives] = useState(false);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const autoplayPlugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true, direction: "ltr" }));
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true, direction: "ltr" }));
   const [isMounted, setIsMounted] = useState(false);
   const [api, setApi] = React.useState<CarouselApi>()
 
@@ -90,6 +92,16 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
         },
       ]);
   }, [t.chat.welcomeMessage]);
+
+  useEffect(() => {
+    async function fetchSuggestions(lang: Language) {
+        const suggestions = await getPromptSuggestions({ language: lang });
+        setPromptSuggestions(suggestions);
+    }
+    if (isMounted) {
+        fetchSuggestions(language);
+    }
+  }, [language, isMounted]);
   
   useEffect(() => {
     if (!api) {
@@ -105,29 +117,34 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   }, [messages, isTyping]);
   
   const handlePerspectiveToggle = (perspective: Perspective) => {
-    let newPerspectives;
-    if (activePerspectives.includes(perspective)) {
-      newPerspectives = activePerspectives.filter((p) => p !== perspective);
-    } else {
-      newPerspectives = [...activePerspectives, perspective];
-    }
-
-    if (newPerspectives.length === perspectives.length) {
-      setActivePerspectives([]);
-    } else {
-      setActivePerspectives(newPerspectives);
-    }
+    setActivePerspectives(prev => {
+      if (prev.includes(perspective)) {
+        return prev.filter(p => p !== perspective);
+      } else {
+        return [...prev, perspective];
+      }
+    });
   };
 
-  const handleSendMessage = async (e: FormEvent, messageText?: string) => {
+  const handleSuggestionClick = (suggestion: PromptSuggestion) => {
+    setInput(suggestion.prompt);
+    
+    // Map category to perspective
+    const perspectiveToActivate = Object.keys(perspectiveConfig).find(p => p === suggestion.category) as Perspective | undefined;
+
+    if (perspectiveToActivate && !activePerspectives.includes(perspectiveToActivate)) {
+        handlePerspectiveToggle(perspectiveToActivate);
+    }
+  }
+
+  const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
-    const currentInput = messageText || input;
-    if (!currentInput.trim() || isTyping) return;
+    if (!input.trim() || isTyping) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       sender: "user",
-      text: currentInput,
+      text: input,
     };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
@@ -140,7 +157,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
     }));
 
     const response = await getChatResponse({
-      message: currentInput,
+      message: userMessage.text,
       tone: settings.tone,
       madhhab: settings.madhhab ?? undefined,
       riwayah: settings.riwayah ?? undefined,
@@ -208,12 +225,12 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                       <CarouselItem key={index}>
                           <Card 
                             className="bg-card/50 border-primary/10 hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer"
-                            onClick={(e) => handleSendMessage(e, suggestion.prompt)}
+                            onClick={() => handleSuggestionClick(suggestion)}
                           >
                             <CardContent className="p-4">
                               <p className="font-semibold text-primary text-sm flex items-center gap-2">
                                 <Sparkles className="h-4 w-4" />
-                                {suggestion.category}
+                                {t.chat.perspectives[suggestion.category as keyof typeof t.chat.perspectives] || suggestion.category}
                               </p>
                               <p className="text-muted-foreground text-sm mt-1">{suggestion.prompt}</p>
                             </CardContent>

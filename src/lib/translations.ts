@@ -93,6 +93,7 @@ export const translations = {
             "Prophet's Life": "Prophet's Life",
             "Sahaba": "Sahaba",
             "Qur'an Tafseer": "Qur'an Tafseer",
+            "Qur'an": "Qur'an",
             "Life Lessons": "Life Lessons",
         },
         toasts: {
@@ -239,6 +240,7 @@ export const translations = {
             "Prophet's Life": "حياة النبي",
             "Sahaba": "الصحابة",
             "Qur'an Tafseer": "تفسير القرآن",
+            "Qur'an": "القرآن",
             "Life Lessons": "دروس حياتية",
         },
         toasts: {
