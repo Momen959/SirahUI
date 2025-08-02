@@ -1,7 +1,6 @@
 
-"use client";
-
 import * as React from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Ghost } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 const signInSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -47,8 +47,7 @@ const signUpSchema = z.object({
     password: z.string().min(8, { message: "Password must be at least 8 characters." }),
 });
 
-
-export default function LoginPage() {
+function LoginClient() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { toast } = useToast();
@@ -217,4 +216,13 @@ export default function LoginPage() {
             </Tabs>
         </main>
     );
+}
+
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="h-screen w-full flex items-center justify-center"><LoadingSpinner className="h-8 w-8" /></div>}>
+            <LoginClient />
+        </Suspense>
+    )
 }
