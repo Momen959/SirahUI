@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -37,6 +36,8 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Ghost } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { LoadingSpinner } from "@/components/loading-spinner";
+import { useLanguage } from "@/components/language-provider";
+import { translations } from "@/lib/translations";
 
 const signInSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -53,6 +54,8 @@ function LoginClient() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { toast } = useToast();
+    const { language } = useLanguage();
+    const t = translations[language];
     const defaultTab = searchParams.get('tab') || "signin";
 
     const signInForm = useForm<z.infer<typeof signInSchema>>({
@@ -67,13 +70,13 @@ function LoginClient() {
 
     const handleSignIn = (values: z.infer<typeof signInSchema>) => {
         console.log("Signing in with:", values);
-        toast({ title: "Signed In Successfully!", description: "Redirecting to your chat..."});
+        toast({ title: t.login.toasts.signInSuccessTitle, description: t.login.toasts.signInSuccessDescription});
         router.push("/chat");
     };
 
     const handleSignUp = (values: z.infer<typeof signUpSchema>) => {
         console.log("Signing up with:", values);
-        toast({ title: "Account Created!", description: "Redirecting to your chat..."});
+        toast({ title: t.login.toasts.signUpSuccessTitle, description: t.login.toasts.signUpSuccessDescription});
         router.push("/chat");
     };
 
@@ -82,20 +85,20 @@ function LoginClient() {
              <Button variant="ghost" className="absolute top-4 left-4" asChild>
                 <Link href="/">
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Home
+                    {t.login.backToHome}
                 </Link>
             </Button>
             <Tabs defaultValue={defaultTab} className="w-full max-w-md">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="signin">Sign In</TabsTrigger>
-                    <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                    <TabsTrigger value="signin">{t.login.signIn.tab}</TabsTrigger>
+                    <TabsTrigger value="signup">{t.login.signUp.tab}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="signin">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Sign In</CardTitle>
+                            <CardTitle>{t.login.signIn.title}</CardTitle>
                             <CardDescription>
-                                Welcome back! Enter your credentials to access your account.
+                                {t.login.signIn.description}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -106,7 +109,7 @@ function LoginClient() {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Email</FormLabel>
+                                                <FormLabel>{t.login.emailLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="you@example.com" {...field} />
                                                 </FormControl>
@@ -119,7 +122,7 @@ function LoginClient() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Password</FormLabel>
+                                                <FormLabel>{t.login.passwordLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="••••••••" {...field} />
                                                 </FormControl>
@@ -127,20 +130,20 @@ function LoginClient() {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="w-full">Sign In</Button>
+                                    <Button type="submit" className="w-full">{t.login.signIn.button}</Button>
                                 </form>
                             </Form>
                         </CardContent>
                         <CardFooter className="flex-col gap-4">
                             <div className="relative w-full flex items-center">
                                 <Separator className="flex-1" />
-                                <span className="px-2 text-xs text-muted-foreground">OR</span>
+                                <span className="px-2 text-xs text-muted-foreground">{t.login.orSeparator}</span>
                                 <Separator className="flex-1" />
                             </div>
                             <Button variant="outline" className="w-full" asChild>
                                 <Link href="/chat">
                                     <Ghost className="mr-2 h-4 w-4" />
-                                    Continue as Guest
+                                    {t.login.continueAsGuest}
                                 </Link>
                             </Button>
                         </CardFooter>
@@ -149,9 +152,9 @@ function LoginClient() {
                 <TabsContent value="signup">
                      <Card>
                         <CardHeader>
-                            <CardTitle>Sign Up</CardTitle>
+                            <CardTitle>{t.login.signUp.title}</CardTitle>
                             <CardDescription>
-                                Create a new account to begin your journey with SirahSense.
+                                {t.login.signUp.description}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -162,9 +165,9 @@ function LoginClient() {
                                         name="name"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Name</FormLabel>
+                                                <FormLabel>{t.login.nameLabel}</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="AI Enthusiast" {...field} />
+                                                    <Input placeholder={t.login.namePlaceholder} {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -175,7 +178,7 @@ function LoginClient() {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Email</FormLabel>
+                                                <FormLabel>{t.login.emailLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="you@example.com" {...field} />
                                                 </FormControl>
@@ -188,7 +191,7 @@ function LoginClient() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Password</FormLabel>
+                                                <FormLabel>{t.login.passwordLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="••••••••" {...field} />
                                                 </FormControl>
@@ -196,20 +199,20 @@ function LoginClient() {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="w-full">Create Account</Button>
+                                    <Button type="submit" className="w-full">{t.login.signUp.button}</Button>
                                 </form>
                             </Form>
                         </CardContent>
                          <CardFooter className="flex-col gap-4">
                             <div className="relative w-full flex items-center">
                                 <Separator className="flex-1" />
-                                <span className="px-2 text-xs text-muted-foreground">OR</span>
+                                <span className="px-2 text-xs text-muted-foreground">{t.login.orSeparator}</span>
                                 <Separator className="flex-1" />
                             </div>
                             <Button variant="outline" className="w-full" asChild>
                                 <Link href="/chat">
                                     <Ghost className="mr-2 h-4 w-4" />
-                                    Continue as Guest
+                                    {t.login.continueAsGuest}
                                 </Link>
                             </Button>
                         </CardFooter>

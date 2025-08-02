@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -28,24 +27,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTheme } from "next-themes";
 import { useColorTheme } from "@/components/color-theme-provider";
-import { Moon, Sun, Palette, Trash2, Download } from "lucide-react";
+import { Moon, Sun, Palette, Trash2, Download, Languages } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "./language-provider";
+import { translations } from "@/lib/translations";
 
 export function ProfileDialog({ children }: { children: React.ReactNode }) {
     const { toast } = useToast();
+    const { language } = useLanguage();
+    const t = translations[language];
 
     const handleExport = () => {
         toast({
-            title: "Exporting Data",
-            description: "Your chat history is being prepared for download.",
+            title: t.profile.data.exportToastTitle,
+            description: t.profile.data.exportToastDescription,
         });
     }
 
     const handleDeleteAccount = () => {
         toast({
             variant: "destructive",
-            title: "Account Deletion",
-            description: "Your account and data will be permanently deleted.",
+            title: t.profile.data.deleteToastTitle,
+            description: t.profile.data.deleteToastDescription,
         });
     }
 
@@ -54,77 +57,81 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
-          <DialogTitle>Profile Settings</DialogTitle>
+          <DialogTitle>{t.profile.title}</DialogTitle>
           <DialogDescription>
-            Manage your account settings, appearance, and data.
+            {t.profile.description}
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="appearance">Appearance</TabsTrigger>
-            <TabsTrigger value="data">Data</TabsTrigger>
+            <TabsTrigger value="profile">{t.profile.tabs.profile}</TabsTrigger>
+            <TabsTrigger value="appearance">{t.profile.tabs.appearance}</TabsTrigger>
+            <TabsTrigger value="data">{t.profile.tabs.data}</TabsTrigger>
           </TabsList>
           <TabsContent value="profile">
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{t.profile.profile.nameLabel}</Label>
                 <Input id="name" defaultValue="AI Enthusiast" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t.profile.profile.emailLabel}</Label>
                 <Input id="email" type="email" defaultValue="user@example.com" disabled />
               </div>
             </div>
             <DialogFooter>
-                <Button type="submit">Save Changes</Button>
+                <Button type="submit">{t.profile.profile.saveButton}</Button>
             </DialogFooter>
           </TabsContent>
           <TabsContent value="appearance">
              <div className="space-y-6 py-4">
                 <div className="space-y-2">
-                    <Label>Theme</Label>
-                    <p className="text-sm text-muted-foreground">Select a light or dark theme for the application.</p>
+                    <Label>{t.profile.appearance.themeLabel}</Label>
+                    <p className="text-sm text-muted-foreground">{t.profile.appearance.themeDescription}</p>
                     <ThemeSelector />
                 </div>
                  <div className="space-y-2">
-                    <Label>Color Scheme</Label>
-                    <p className="text-sm text-muted-foreground">Choose your favorite color palette.</p>
+                    <Label>{t.profile.appearance.colorSchemeLabel}</Label>
+                    <p className="text-sm text-muted-foreground">{t.profile.appearance.colorSchemeDescription}</p>
                     <ColorThemeSelector />
+                </div>
+                <div className="space-y-2">
+                    <Label>{t.profile.appearance.languageLabel}</Label>
+                    <p className="text-sm text-muted-foreground">{t.profile.appearance.languageDescription}</p>
+                    <LanguageSelector />
                 </div>
             </div>
           </TabsContent>
           <TabsContent value="data">
             <div className="space-y-6 py-4">
                 <div className="space-y-2">
-                    <Label>Export Data</Label>
-                    <p className="text-sm text-muted-foreground">Download your chat history and saved responses.</p>
+                    <Label>{t.profile.data.exportLabel}</Label>
+                    <p className="text-sm text-muted-foreground">{t.profile.data.exportDescription}</p>
                     <Button variant="outline" onClick={handleExport}>
                         <Download className="mr-2 h-4 w-4"/>
-                        Export My Data
+                        {t.profile.data.exportButton}
                     </Button>
                 </div>
                 <div className="space-y-2">
-                    <Label className="text-destructive">Delete Account</Label>
-                     <p className="text-sm text-muted-foreground">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                    <Label className="text-destructive">{t.profile.data.deleteLabel}</Label>
+                     <p className="text-sm text-muted-foreground">{t.profile.data.deleteDescription}</p>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button variant="destructive">
                                 <Trash2 className="mr-2 h-4 w-4"/>
-                                Delete My Account
+                                {t.profile.data.deleteButton}
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogTitle>{t.profile.data.deleteDialogTitle}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
+                                {t.profile.data.deleteDialogDescription}
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleDeleteAccount}>Continue</AlertDialogAction>
+                                <AlertDialogCancel>{t.profile.data.deleteDialogCancel}</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDeleteAccount}>{t.profile.data.deleteDialogContinue}</AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
@@ -140,13 +147,16 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
 
 function ThemeSelector() {
     const { theme, setTheme } = useTheme();
+    const { language } = useLanguage();
+    const t = translations[language];
+
     return (
         <div className="flex gap-2">
             <Button variant={theme === 'light' ? 'default' : 'outline'} onClick={() => setTheme('light')} className="w-full">
-                <Sun className="mr-2 h-4 w-4" /> Light
+                <Sun className="mr-2 h-4 w-4" /> {t.profile.appearance.themeLight}
             </Button>
             <Button variant={theme === 'dark' ? 'default' : 'outline'} onClick={() => setTheme('dark')} className="w-full">
-                <Moon className="mr-2 h-4 w-4" /> Dark
+                <Moon className="mr-2 h-4 w-4" /> {t.profile.appearance.themeDark}
             </Button>
         </div>
     )
@@ -154,19 +164,37 @@ function ThemeSelector() {
 
 function ColorThemeSelector() {
     const { theme, setTheme } = useColorTheme();
+    const { language } = useLanguage();
+    const t = translations[language];
+
     return (
         <div className="grid grid-cols-2 gap-2">
             <Button variant={theme === 'theme-green' ? 'default' : 'outline'} onClick={() => setTheme('theme-green')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> Green
+                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorGreen}
             </Button>
             <Button variant={theme === 'theme-brown' ? 'default' : 'outline'} onClick={() => setTheme('theme-brown')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> Brown
+                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorBrown}
             </Button>
             <Button variant={theme === 'theme-blue' ? 'default' : 'outline'} onClick={() => setTheme('theme-blue')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> Blue
+                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorBlue}
             </Button>
             <Button variant={theme === 'theme-purple' ? 'default' : 'outline'} onClick={() => setTheme('theme-purple')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> Purple
+                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorPurple}
+            </Button>
+        </div>
+    )
+}
+
+function LanguageSelector() {
+    const { language, setLanguage } = useLanguage();
+    const t = translations[language];
+    return (
+        <div className="flex gap-2">
+            <Button variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')} className="w-full">
+                <Languages className="mr-2 h-4 w-4" /> {t.profile.appearance.languageEnglish}
+            </Button>
+            <Button variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')} className="w-full">
+                <Languages className="mr-2 h-4 w-4" /> {t.profile.appearance.languageArabic}
             </Button>
         </div>
     )

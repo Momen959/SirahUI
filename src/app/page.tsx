@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react";
@@ -13,32 +12,36 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-
-const features = [
-  {
-    icon: MessageSquare,
-    title: "Interactive AI Chat",
-    description: "Ask questions and get detailed answers about the life of the Prophet (ﷺ) in a natural, conversational way.",
-  },
-  {
-    icon: BookOpen,
-    title: "Authentic Sources",
-    description: "Responses are grounded in the Qur'an and major Hadith collections, providing you with reliable information.",
-  },
-  {
-    icon: Users,
-    title: "Multiple Perspectives",
-    description: "Explore topics through various lenses, including Fiqh Madhhabs and specific Riwayahs.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Daily Reflections",
-    description: "Start your day with a thought-provoking prompt from the Seerah to inspire learning and reflection.",
-  },
-];
+import { useLanguage } from "@/components/language-provider";
+import { translations } from "@/lib/translations";
 
 export default function WelcomePage() {
+  const { language } = useLanguage();
+  const t = translations[language];
   const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true }))
+
+  const features = [
+    {
+      icon: MessageSquare,
+      title: t.welcome.features.chat.title,
+      description: t.welcome.features.chat.description,
+    },
+    {
+      icon: BookOpen,
+      title: t.welcome.features.sources.title,
+      description: t.welcome.features.sources.description,
+    },
+    {
+      icon: Users,
+      title: t.welcome.features.perspectives.title,
+      description: t.welcome.features.perspectives.description,
+    },
+    {
+      icon: Lightbulb,
+      title: t.welcome.features.reflections.title,
+      description: t.welcome.features.reflections.description,
+    },
+  ];
 
   return (
     <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper overflow-hidden">
@@ -47,11 +50,11 @@ export default function WelcomePage() {
       </div>
 
       <h1 className="font-headline text-5xl font-bold text-primary">
-        Welcome to SirahSense
+        {t.welcome.title}
       </h1>
       
       <p className="mt-2 max-w-2xl text-lg text-muted-foreground">
-        Your personal AI companion for exploring the life and teachings of the Prophet Muhammad (ﷺ).
+        {t.welcome.subtitle}
       </p>
 
       <div className="mt-8 w-full max-w-xl">
@@ -60,6 +63,7 @@ export default function WelcomePage() {
           className="w-full"
           onMouseEnter={autoplayPlugin.current.stop}
           onMouseLeave={autoplayPlugin.current.reset}
+          opts={{ direction: language === 'ar' ? 'rtl' : 'ltr' }}
         >
           <CarouselContent>
             {features.map((feature, index) => (
@@ -80,7 +84,7 @@ export default function WelcomePage() {
       <div className="mt-8">
         <Button asChild size="lg">
           <Link href="/login">
-            Begin Your Journey
+            {t.welcome.cta}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </Button>

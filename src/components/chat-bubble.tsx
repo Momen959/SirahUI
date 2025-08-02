@@ -1,4 +1,3 @@
-
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -10,14 +9,18 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Bookmark, BookOpen, BrainCircuit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "./language-provider";
+import { translations } from "@/lib/translations";
 
 export function ChatBubble({ message }: { message: Message }) {
   const { toast } = useToast();
+  const { language } = useLanguage();
+  const t = translations[language];
 
   const handleSave = () => {
     toast({
-      title: "Response Saved",
-      description: "You can find your saved responses in your profile.",
+      title: t.chat.toasts.responseSavedTitle,
+      description: t.chat.toasts.responseSavedDescription,
     });
   };
 
@@ -32,7 +35,7 @@ export function ChatBubble({ message }: { message: Message }) {
       </Avatar>
 
       <div className={cn("max-w-2xl w-full rounded-2xl px-4 py-3 shadow-sm", isUser ? "bg-primary text-primary-foreground" : "bg-card border text-card-foreground")}>
-        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-0">
+        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-0" dir="auto">
           <ReactMarkdown>{message.text}</ReactMarkdown>
         </div>
         
@@ -42,7 +45,7 @@ export function ChatBubble({ message }: { message: Message }) {
                 {message.sources.map((source, index) => (
                 <Card key={index} className="bg-background/50 border-primary/20">
                     <AccordionItem value={`item-${index}`} className="border-b-0">
-                        <AccordionTrigger className="p-3">
+                        <AccordionTrigger className="p-3 text-left">
                             <div className="flex flex-row items-center gap-3 space-y-0">
                                 <BookOpen className="h-5 w-5 text-accent shrink-0" />
                                 <span className="text-sm font-semibold text-primary text-left">{source.title}</span>
@@ -50,10 +53,10 @@ export function ChatBubble({ message }: { message: Message }) {
                         </AccordionTrigger>
                         <AccordionContent className="px-3 pb-3">
                            <div className="space-y-2">
-                             <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground ltr" dir="ltr">
+                             <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground" dir="ltr">
                                 {source.englishContent}
                             </blockquote>
-                            <blockquote className="border-r-2 border-l-0 border-accent/50 pr-3 text-sm text-muted-foreground rtl" dir="rtl">
+                            <blockquote className="border-r-2 border-l-0 border-primary/50 pr-3 text-sm text-muted-foreground" dir="rtl">
                                 {source.arabicContent}
                             </blockquote>
                            </div>

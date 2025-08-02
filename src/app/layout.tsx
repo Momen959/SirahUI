@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { ColorThemeProvider } from '@/components/color-theme-provider';
+import { LanguageProvider } from '@/components/language-provider';
 
 export const metadata: Metadata = {
   title: 'SirahSense',
@@ -29,8 +30,10 @@ export default function RootLayout({
             disableTransitionOnChange
         >
           <ColorThemeProvider>
-            {children}
-            <Toaster />
+            <LanguageProvider>
+                {children}
+                <Toaster />
+            </LanguageProvider>
           </ColorThemeProvider>
         </ThemeProvider>
       </body>

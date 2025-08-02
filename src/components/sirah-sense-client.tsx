@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
@@ -23,6 +22,8 @@ import { cn } from "@/lib/utils";
 import type { ChatInput } from "@/ai/flows/chat-flow";
 import type { PromptSuggestion } from "@/ai/flows/prompt-suggestions-flow";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useLanguage } from "./language-provider";
+import { translations } from "@/lib/translations";
 
 export type Tone = "Concise" | "Reflective";
 export type Madhhab = "Hanafi" | "Maliki" | "Shafi'i" | "Hanbali" | "Other" | null;
@@ -55,11 +56,14 @@ const perspectiveConfig: { [key in Perspective]: { icon: React.ElementType } } =
 const perspectives = Object.keys(perspectiveConfig) as Perspective[];
 
 export default function SirahSenseClient({ promptSuggestions }: { promptSuggestions: PromptSuggestion[] }) {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       sender: "ai",
-      text: "As-salamu alaykum! Welcome to SirahSense. How can I help you explore the life of the Prophet Muhammad (peace be upon him) today?",
+      text: t.chat.welcomeMessage,
     },
   ]);
   const [input, setInput] = useState("");
@@ -176,6 +180,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                   className="w-full"
                   onMouseEnter={autoplayPlugin.current.stop}
                   onMouseLeave={autoplayPlugin.current.reset}
+                  opts={{ direction: language === 'ar' ? 'rtl' : 'ltr' }}
                 >
                   <CarouselContent>
                     {promptSuggestions.map((suggestion, index) => (
@@ -203,7 +208,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                     {activePerspectives.map((p) => (
                         <div key={p} className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
                             {React.createElement(perspectiveConfig[p].icon, { className: "h-4 w-4" })}
-                            <span>{p}</span>
+                            <span>{t.chat.perspectives[p as keyof typeof t.chat.perspectives]}</span>
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -221,7 +226,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question about the Seerah..."
+                placeholder={t.chat.inputPlaceholder}
                 className="min-h-[52px] resize-none rounded-2xl border-2 border-border bg-card py-[14px] pl-5 pr-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
@@ -237,7 +242,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                 disabled={!input.trim() || isTyping}
               >
                 <SendHorizontal className="h-5 w-5" />
-                <span className="sr-only">Send Message</span>
+                <span className="sr-only">{t.chat.sendButton}</span>
               </Button>
             </div>
           </form>
@@ -245,7 +250,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
           <div className="mt-2 flex items-center justify-start gap-2">
             <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="text-muted-foreground hover:text-primary">
                 <Settings className="mr-2 h-4 w-4" />
-                <span>AI Settings</span>
+                <span>{t.chat.aiSettings.button}</span>
                 <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
             </Button>
             
@@ -253,15 +258,15 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                 <PopoverTrigger asChild>
                     <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
                         <Compass className="mr-2 h-4 w-4" />
-                        <span>Perspectives</span>
+                        <span>{t.chat.perspectives.button}</span>
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-80" align="start">
                     <div className="grid gap-4">
                         <div className="space-y-2">
-                            <h4 className="font-medium leading-none">Select Perspectives</h4>
+                            <h4 className="font-medium leading-none">{t.chat.perspectives.popoverTitle}</h4>
                             <p className="text-sm text-muted-foreground">
-                                Focus the AI's response on specific topics. Select all to reset.
+                                {t.chat.perspectives.popoverDescription}
                             </p>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -275,7 +280,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                                     className="justify-start gap-2"
                                 >
                                     <Icon className="h-4 w-4" />
-                                    {p}
+                                    {t.chat.perspectives[p as keyof typeof t.chat.perspectives]}
                                 </Button>
                                 );
                              })}
@@ -289,19 +294,19 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
             <div className="mt-2 space-y-4 rounded-lg border bg-card/50 p-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="flex items-center space-x-2">
-                      <Label htmlFor="tone-switch">Concise</Label>
+                      <Label htmlFor="tone-switch">{t.chat.aiSettings.tone.concise}</Label>
                       <Switch
                           id="tone-switch"
                           checked={settings.tone === "Reflective"}
                           onCheckedChange={(checked) => setSettings(s => ({ ...s, tone: checked ? "Reflective" : "Concise" }))}
                       />
-                      <Label htmlFor="tone-switch">Reflective</Label>
+                      <Label htmlFor="tone-switch">{t.chat.aiSettings.tone.reflective}</Label>
                   </div>
                   
                   <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                           <Button variant="outline" className="justify-between">
-                              <span>{settings.madhhab || "Select Madhhab"}</span>
+                              <span>{settings.madhhab || t.chat.aiSettings.madhhab.select}</span>
                               <ChevronDown className="h-4 w-4" />
                           </Button>
                       </DropdownMenuTrigger>
@@ -314,7 +319,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                           ))}
                            <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, madhhab: null }))}>
                               <Check className={cn("mr-2 h-4 w-4", settings.madhhab === null ? "opacity-100" : "opacity-0")} />
-                              None
+                              {t.chat.aiSettings.none}
                           </DropdownMenuItem>
                       </DropdownMenuContent>
                   </DropdownMenu>
@@ -322,7 +327,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                   <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                           <Button variant="outline" className="justify-between">
-                              <span>{settings.riwayah || "Select Riwayah"}</span>
+                              <span>{settings.riwayah || t.chat.aiSettings.riwayah.select}</span>
                               <ChevronDown className="h-4 w-4" />
                           </Button>
                       </DropdownMenuTrigger>
@@ -335,7 +340,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                           ))}
                            <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, riwayah: null }))}>
                               <Check className={cn("mr-2 h-4 w-4", settings.riwayah === null ? "opacity-100" : "opacity-0")} />
-                              None
+                              {t.chat.aiSettings.none}
                           </DropdownMenuItem>
                       </DropdownMenuContent>
                   </DropdownMenu>
