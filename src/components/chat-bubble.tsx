@@ -50,10 +50,10 @@ export function ChatBubble({ message }: { message: Message }) {
                         </AccordionTrigger>
                         <AccordionContent className="px-3 pb-3">
                            <div className="space-y-2">
-                             <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground">
+                             <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground ltr" dir="ltr">
                                 {source.englishContent}
                             </blockquote>
-                            <blockquote className="border-l-2 border-accent/50 pl-3 text-sm text-muted-foreground rtl" dir="rtl">
+                            <blockquote className="border-r-2 border-l-0 border-accent/50 pr-3 text-sm text-muted-foreground rtl" dir="rtl">
                                 {source.arabicContent}
                             </blockquote>
                            </div>
