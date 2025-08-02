@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -108,7 +109,7 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
                     <Label>{t.profile.data.exportLabel}</Label>
                     <p className="text-sm text-muted-foreground">{t.profile.data.exportDescription}</p>
                     <Button variant="outline" onClick={handleExport}>
-                        <Download className="mr-2 h-4 w-4"/>
+                        <Download className="ltr:mr-2 rtl:ml-2 h-4 w-4"/>
                         {t.profile.data.exportButton}
                     </Button>
                 </div>
@@ -118,7 +119,7 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button variant="destructive">
-                                <Trash2 className="mr-2 h-4 w-4"/>
+                                <Trash2 className="ltr:mr-2 rtl:ml-2 h-4 w-4"/>
                                 {t.profile.data.deleteButton}
                             </Button>
                         </AlertDialogTrigger>
@@ -153,10 +154,10 @@ function ThemeSelector() {
     return (
         <div className="flex gap-2">
             <Button variant={theme === 'light' ? 'default' : 'outline'} onClick={() => setTheme('light')} className="w-full">
-                <Sun className="mr-2 h-4 w-4" /> {t.profile.appearance.themeLight}
+                <Sun className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> {t.profile.appearance.themeLight}
             </Button>
             <Button variant={theme === 'dark' ? 'default' : 'outline'} onClick={() => setTheme('dark')} className="w-full">
-                <Moon className="mr-2 h-4 w-4" /> {t.profile.appearance.themeDark}
+                <Moon className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> {t.profile.appearance.themeDark}
             </Button>
         </div>
     )
@@ -170,16 +171,16 @@ function ColorThemeSelector() {
     return (
         <div className="grid grid-cols-2 gap-2">
             <Button variant={theme === 'theme-green' ? 'default' : 'outline'} onClick={() => setTheme('theme-green')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorGreen}
+                <Palette className="ltr:mr-2 rtl:ml-2 h-4 w-4"/> {t.profile.appearance.colorGreen}
             </Button>
             <Button variant={theme === 'theme-brown' ? 'default' : 'outline'} onClick={() => setTheme('theme-brown')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorBrown}
+                <Palette className="ltr:mr-2 rtl:ml-2 h-4 w-4"/> {t.profile.appearance.colorBrown}
             </Button>
             <Button variant={theme === 'theme-blue' ? 'default' : 'outline'} onClick={() => setTheme('theme-blue')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorBlue}
+                <Palette className="ltr:mr-2 rtl:ml-2 h-4 w-4"/> {t.profile.appearance.colorBlue}
             </Button>
             <Button variant={theme === 'theme-purple' ? 'default' : 'outline'} onClick={() => setTheme('theme-purple')} className="w-full">
-                <Palette className="mr-2 h-4 w-4"/> {t.profile.appearance.colorPurple}
+                <Palette className="ltr:mr-2 rtl:ml-2 h-4 w-4"/> {t.profile.appearance.colorPurple}
             </Button>
         </div>
     )
@@ -191,10 +192,10 @@ function LanguageSelector() {
     return (
         <div className="flex gap-2">
             <Button variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')} className="w-full">
-                <Languages className="mr-2 h-4 w-4" /> {t.profile.appearance.languageEnglish}
+                <Languages className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> {t.profile.appearance.languageEnglish}
             </Button>
             <Button variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')} className="w-full">
-                <Languages className="mr-2 h-4 w-4" /> {t.profile.appearance.languageArabic}
+                <Languages className="ltr:mr-2 rtl:ml-2 h-4 w-4" /> {t.profile.appearance.languageArabic}
             </Button>
         </div>
     )

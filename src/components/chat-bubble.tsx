@@ -1,3 +1,4 @@
+
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -45,10 +46,10 @@ export function ChatBubble({ message }: { message: Message }) {
                 {message.sources.map((source, index) => (
                 <Card key={index} className="bg-background/50 border-primary/20">
                     <AccordionItem value={`item-${index}`} className="border-b-0">
-                        <AccordionTrigger className="p-3 text-left">
+                        <AccordionTrigger className="p-3 text-start">
                             <div className="flex flex-row items-center gap-3 space-y-0">
                                 <BookOpen className="h-5 w-5 text-accent shrink-0" />
-                                <span className="text-sm font-semibold text-primary text-left">{source.title}</span>
+                                <span className="text-sm font-semibold text-primary text-start">{source.title}</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="px-3 pb-3">
@@ -56,7 +57,7 @@ export function ChatBubble({ message }: { message: Message }) {
                              <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground" dir="ltr">
                                 {source.englishContent}
                             </blockquote>
-                            <blockquote className="border-l-0 border-r-2 border-primary/50 pr-3 text-sm text-muted-foreground" dir="rtl">
+                            <blockquote className="border-r-2 border-primary/50 pr-3 text-sm text-muted-foreground" dir="rtl">
                                 {source.arabicContent}
                             </blockquote>
                            </div>

@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, MessageSquare, BookOpen, Users, Lightbulb } from "lucide-react";
+import { ArrowRight, ArrowLeft, MessageSquare, BookOpen, Users, Lightbulb } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@/components/ui/button";
@@ -22,11 +22,12 @@ export default function WelcomePage() {
   const { language } = useLanguage();
   const t = translations[language];
   
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true, direction: "ltr" }))
+  const [plugin, setPlugin] = React.useState<React.ComponentProps<typeof Autoplay>['plugin']>();
 
   React.useEffect(() => {
     setIsMounted(true);
-  }, []);
+    setPlugin(Autoplay({ delay: 4000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr'}));
+  }, [language]);
   
 
   const features = [
@@ -56,6 +57,8 @@ export default function WelcomePage() {
     return null; // or a loading skeleton
   }
 
+  const CtaArrow = language === 'ar' ? ArrowLeft : ArrowRight;
+
   return (
     <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper">
       <div className="relative mb-6 flex h-32 w-32 items-center justify-center">
@@ -72,11 +75,10 @@ export default function WelcomePage() {
 
       <div className="mt-8 w-full max-w-xl">
         <Carousel 
-          plugins={[autoplayPlugin.current]}
+          plugins={plugin ? [plugin] : undefined}
           className="w-full"
-          onMouseEnter={autoplayPlugin.current.stop}
-          onMouseLeave={autoplayPlugin.current.reset}
-          dir="ltr"
+          onMouseEnter={plugin?.stop}
+          onMouseLeave={plugin?.reset}
         >
           <CarouselContent>
             {features.map((feature, index) => (
@@ -98,7 +100,7 @@ export default function WelcomePage() {
         <Button asChild size="lg">
           <Link href="/login">
             {t.welcome.cta}
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <CtaArrow className="ltr:ml-2 rtl:mr-2 h-5 w-5" />
           </Link>
         </Button>
       </div>

@@ -30,7 +30,7 @@ export default function ChatLayout({
 
   return (
       <SidebarProvider>
-        <Sidebar>
+        <Sidebar side={language === 'ar' ? 'right' : 'left'}>
           <SidebarHeader className="p-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">

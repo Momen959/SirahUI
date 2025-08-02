@@ -77,7 +77,7 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
   const [showPerspectives, setShowPerspectives] = useState(false);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true, direction: "ltr" }));
+  const [plugin, setPlugin] = React.useState<React.ComponentProps<typeof Autoplay>['plugin']>();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -90,6 +90,10 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
         },
       ]);
   }, [t.chat.welcomeMessage]);
+
+  useEffect(() => {
+    setPlugin(Autoplay({ delay: 5000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr'}));
+  }, [language]);
 
   useEffect(() => {
     async function fetchSuggestions(lang: Language) {
@@ -206,10 +210,10 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
             {promptSuggestions && promptSuggestions.length > 0 && messages.length <= 1 && (
               <div className="mb-4">
                 <Carousel 
-                  plugins={[autoplayPlugin.current]}
+                  plugins={plugin ? [plugin] : []}
                   className="w-full"
-                  onMouseEnter={autoplayPlugin.current.stop}
-                  onMouseLeave={autoplayPlugin.current.reset}
+                  onMouseEnter={plugin?.stop}
+                  onMouseLeave={plugin?.reset}
                 >
                   <CarouselContent>
                     {promptSuggestions.map((suggestion, index) => (
@@ -256,7 +260,7 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t.chat.inputPlaceholder}
-                className="min-h-[52px] resize-none rounded-2xl border-2 border-border bg-card py-[14px] pl-5 pr-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="min-h-[52px] resize-none rounded-2xl border-2 border-border bg-card py-[14px] ltr:pl-5 ltr:pr-14 rtl:pr-5 rtl:pl-14 text-base text-card-foreground shadow-sm focus-visible:ring-2 focus-visible:ring-primary/50"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -267,7 +271,7 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
               <Button
                 type="submit"
                 size="icon"
-                className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 shrink-0 rounded-full"
+                className="absolute ltr:right-2 rtl:left-2 top-1/2 -translate-y-1/2 h-9 w-9 shrink-0 rounded-full"
                 disabled={!input.trim() || isTyping}
               >
                 <SendHorizontal className="h-5 w-5" />
@@ -278,15 +282,15 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
 
           <div className="mt-2 flex items-center justify-start gap-2">
             <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="text-muted-foreground hover:text-primary">
-                <Settings className="mr-2 h-4 w-4" />
+                <Settings className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
                 <span>{t.chat.aiSettings.button}</span>
-                <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
+                <ChevronDown className={cn("ltr:ml-1 rtl:mr-1 h-4 w-4 transition-transform", showSettings && "rotate-180")} />
             </Button>
             
             <Popover open={showPerspectives} onOpenChange={setShowPerspectives}>
                 <PopoverTrigger asChild>
                     <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-                        <Compass className="mr-2 h-4 w-4" />
+                        <Compass className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
                         <span>{t.chat.perspectives.button}</span>
                     </Button>
                 </PopoverTrigger>
@@ -342,12 +346,12 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
                       <DropdownMenuContent className="w-56">
                           {madhhabs.map(m => (
                               <DropdownMenuItem key={m} onSelect={() => setSettings(s => ({ ...s, madhhab: m }))}>
-                                  <Check className={cn("mr-2 h-4 w-4", settings.madhhab === m ? "opacity-100" : "opacity-0")} />
+                                  <Check className={cn("ltr:mr-2 rtl:ml-2 h-4 w-4", settings.madhhab === m ? "opacity-100" : "opacity-0")} />
                                   {t.chat.aiSettings.madhhab[m as keyof typeof t.chat.aiSettings.madhhab]}
                               </DropdownMenuItem>
                           ))}
                            <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, madhhab: null }))}>
-                              <Check className={cn("mr-2 h-4 w-4", settings.madhhab === null ? "opacity-100" : "opacity-0")} />
+                              <Check className={cn("ltr:mr-2 rtl:ml-2 h-4 w-4", settings.madhhab === null ? "opacity-100" : "opacity-0")} />
                               {t.chat.aiSettings.none}
                           </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -363,12 +367,12 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
                       <DropdownMenuContent className="w-56">
                           {riwayahs.map(r => (
                               <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, riwayah: r }))}>
-                                  <Check className={cn("mr-2 h-4 w-4", settings.riwayah === r ? "opacity-100" : "opacity-0")} />
+                                  <Check className={cn("ltr:mr-2 rtl:ml-2 h-4 w-4", settings.riwayah === r ? "opacity-100" : "opacity-0")} />
                                   {t.chat.aiSettings.riwayah[r as keyof typeof t.chat.aiSettings.riwayah]}
                               </DropdownMenuItem>
                           ))}
                            <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, riwayah: null }))}>
-                              <Check className={cn("mr-2 h-4 w-4", settings.riwayah === null ? "opacity-100" : "opacity-0")} />
+                              <Check className={cn("ltr:mr-2 rtl:ml-2 h-4 w-4", settings.riwayah === null ? "opacity-100" : "opacity-0")} />
                               {t.chat.aiSettings.none}
                           </DropdownMenuItem>
                       </DropdownMenuContent>

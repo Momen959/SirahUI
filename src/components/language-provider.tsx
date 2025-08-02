@@ -36,9 +36,7 @@ export function LanguageProvider({
   React.useEffect(() => {
     const root = window.document.documentElement
     root.lang = language
-    // We will let the browser handle text direction automatically within elements
-    // to avoid flipping the entire UI layout.
-    // root.dir = language === 'ar' ? 'rtl' : 'ltr'
+    root.dir = language === 'ar' ? 'rtl' : 'ltr'
     localStorage.setItem(storageKey, language)
   }, [language, storageKey])
 

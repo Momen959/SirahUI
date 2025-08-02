@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Ghost } from "lucide-react";
+import { ArrowLeft, ArrowRight, Ghost } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { useLanguage } from "@/components/language-provider";
@@ -90,11 +90,13 @@ function LoginClient() {
         return null;
     }
 
+    const BackArrow = language === 'ar' ? ArrowRight : ArrowLeft;
+
     return (
         <main className="flex h-screen flex-col items-center justify-center p-4 paper">
-             <Button variant="ghost" className="absolute top-4 left-4" asChild>
+             <Button variant="ghost" className="absolute top-4 ltr:left-4 rtl:right-4" asChild>
                 <Link href="/">
-                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    <BackArrow className={language === 'ar' ? 'ml-2' : 'mr-2'} />
                     {t.login.backToHome}
                 </Link>
             </Button>
@@ -152,7 +154,7 @@ function LoginClient() {
                             </div>
                             <Button variant="outline" className="w-full" asChild>
                                 <Link href="/chat">
-                                    <Ghost className="mr-2 h-4 w-4" />
+                                    <Ghost className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
                                     {t.login.continueAsGuest}
                                 </Link>
                             </Button>
@@ -221,7 +223,7 @@ function LoginClient() {
                             </div>
                             <Button variant="outline" className="w-full" asChild>
                                 <Link href="/chat">
-                                    <Ghost className="mr-2 h-4 w-4" />
+                                    <Ghost className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
                                     {t.login.continueAsGuest}
                                 </Link>
                             </Button>
