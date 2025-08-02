@@ -17,7 +17,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  type CarouselApi
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -80,7 +79,6 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const autoplayPlugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true, direction: "ltr" }));
   const [isMounted, setIsMounted] = useState(false);
-  const [api, setApi] = React.useState<CarouselApi>()
 
   useEffect(() => {
     setIsMounted(true);
@@ -103,12 +101,6 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
     }
   }, [language, isMounted]);
   
-  useEffect(() => {
-    if (!api) {
-      return
-    }
-    // Sync plugin with api
-  }, [api])
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -214,8 +206,7 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
             {promptSuggestions && promptSuggestions.length > 0 && messages.length <= 1 && (
               <div className="mb-4">
                 <Carousel 
-                  setApi={setApi}
-                  plugins={isMounted ? [autoplayPlugin.current] : []}
+                  plugins={[autoplayPlugin.current]}
                   className="w-full"
                   onMouseEnter={autoplayPlugin.current.stop}
                   onMouseLeave={autoplayPlugin.current.reset}
