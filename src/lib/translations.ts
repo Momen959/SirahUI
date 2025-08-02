@@ -69,10 +69,20 @@ export const translations = {
                 reflective: "Reflective",
             },
             madhhab: {
-                select: "Select Madhhab"
+                select: "Select Madhhab",
+                Hanafi: "Hanafi",
+                Maliki: "Maliki",
+                "Shafi'i": "Shafi'i",
+                Hanbali: "Hanbali",
+                Other: "Other"
             },
             riwayah: {
-                select: "Select Riwayah"
+                select: "Select Riwayah",
+                "Sahih al-Bukhari": "Sahih al-Bukhari",
+                "Sahih Muslim": "Sahih Muslim",
+                "Jami` at-Tirmidhi": "Jami` at-Tirmidhi",
+                "Sunan an-Nasa'i": "Sunan an-Nasa'i",
+                Other: "Other"
             },
             none: "None"
         },
@@ -205,10 +215,20 @@ export const translations = {
                 reflective: "تأملي",
             },
             madhhab: {
-                select: "اختر المذهب"
+                select: "اختر المذهب",
+                Hanafi: "الحنفي",
+                Maliki: "المالكي",
+                "Shafi'i": "الشافعي",
+                Hanbali: "الحنبلي",
+                Other: "آخر"
             },
             riwayah: {
-                select: "اختر الرواية"
+                select: "اختر الرواية",
+                "Sahih al-Bukhari": "صحيح البخاري",
+                "Sahih Muslim": "صحيح مسلم",
+                "Jami` at-Tirmidhi": "جامع الترمذي",
+                "Sunan an-Nasa'i": "سنن النسائي",
+                Other: "أخرى"
             },
             none: "لا شيء"
         },

@@ -327,7 +327,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                   <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                           <Button variant="outline" className="justify-between">
-                              <span>{settings.madhhab || t.chat.aiSettings.madhhab.select}</span>
+                              <span>{settings.madhhab ? t.chat.aiSettings.madhhab[settings.madhhab as keyof typeof t.chat.aiSettings.madhhab] : t.chat.aiSettings.madhhab.select}</span>
                               <ChevronDown className="h-4 w-4" />
                           </Button>
                       </DropdownMenuTrigger>
@@ -335,7 +335,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                           {madhhabs.map(m => (
                               <DropdownMenuItem key={m} onSelect={() => setSettings(s => ({ ...s, madhhab: m }))}>
                                   <Check className={cn("mr-2 h-4 w-4", settings.madhhab === m ? "opacity-100" : "opacity-0")} />
-                                  {m}
+                                  {t.chat.aiSettings.madhhab[m as keyof typeof t.chat.aiSettings.madhhab]}
                               </DropdownMenuItem>
                           ))}
                            <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, madhhab: null }))}>
@@ -348,7 +348,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                   <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                           <Button variant="outline" className="justify-between">
-                              <span>{settings.riwayah || t.chat.aiSettings.riwayah.select}</span>
+                               <span>{settings.riwayah ? t.chat.aiSettings.riwayah[settings.riwayah as keyof typeof t.chat.aiSettings.riwayah] : t.chat.aiSettings.riwayah.select}</span>
                               <ChevronDown className="h-4 w-4" />
                           </Button>
                       </DropdownMenuTrigger>
@@ -356,7 +356,7 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
                           {riwayahs.map(r => (
                               <DropdownMenuItem key={r} onSelect={() => setSettings(s => ({ ...s, riwayah: r }))}>
                                   <Check className={cn("mr-2 h-4 w-4", settings.riwayah === r ? "opacity-100" : "opacity-0")} />
-                                  {r}
+                                  {t.chat.aiSettings.riwayah[r as keyof typeof t.chat.aiSettings.riwayah]}
                               </DropdownMenuItem>
                           ))}
                            <DropdownMenuItem onSelect={() => setSettings(s => ({ ...s, riwayah: null }))}>
