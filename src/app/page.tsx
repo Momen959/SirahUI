@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react";
@@ -16,9 +17,14 @@ import { useLanguage } from "@/components/language-provider";
 import { translations } from "@/lib/translations";
 
 export default function WelcomePage() {
+  const [isMounted, setIsMounted] = React.useState(false);
   const { language } = useLanguage();
   const t = translations[language];
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true }))
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true, direction: "ltr" }))
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const features = [
     {
@@ -42,6 +48,10 @@ export default function WelcomePage() {
       description: t.welcome.features.reflections.description,
     },
   ];
+  
+  if (!isMounted) {
+    return null; // or a loading skeleton
+  }
 
   return (
     <main className="flex h-screen flex-col items-center justify-center p-4 text-center paper overflow-hidden">

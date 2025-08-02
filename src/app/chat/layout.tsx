@@ -1,5 +1,7 @@
+
 "use client";
 
+import * as React from "react";
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarFooter } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Home, MessageSquare, User, LogOut } from "lucide-react";
@@ -14,8 +16,17 @@ export default function ChatLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [isMounted, setIsMounted] = React.useState(false);
   const { language } = useLanguage();
   const t = translations[language];
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // or a loading skeleton
+  }
 
   return (
       <SidebarProvider>

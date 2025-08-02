@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
@@ -59,13 +60,8 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   const { language } = useLanguage();
   const t = translations[language];
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      sender: "ai",
-      text: t.chat.welcomeMessage,
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [settings, setSettings] = useState<ChatSettings>({
@@ -79,7 +75,19 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   const [showPerspectives, setShowPerspectives] = useState(false);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const autoplayPlugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+  const autoplayPlugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true, direction: "ltr" }));
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    setMessages([
+        {
+          id: "1",
+          sender: "ai",
+          text: t.chat.welcomeMessage,
+        },
+      ]);
+  }, [t.chat.welcomeMessage]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -144,6 +152,10 @@ export default function SirahSenseClient({ promptSuggestions }: { promptSuggesti
   
   const madhhabs: Madhhab[] = ["Hanafi", "Maliki", "Shafi'i", "Hanbali", "Other"];
   const riwayahs: Riwayah[] = ["Sahih al-Bukhari", "Sahih Muslim", "Jami` at-Tirmidhi", "Sunan an-Nasa'i", "Other"];
+  
+  if (!isMounted) {
+    return null; // or a loading skeleton
+  }
 
   return (
     <div className="flex h-[calc(100vh-60px)] flex-col bg-transparent">
