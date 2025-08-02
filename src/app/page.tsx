@@ -11,6 +11,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/components/language-provider";
@@ -20,11 +21,20 @@ export default function WelcomePage() {
   const [isMounted, setIsMounted] = React.useState(false);
   const { language } = useLanguage();
   const t = translations[language];
+  const [api, setApi] = React.useState<CarouselApi>()
   const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true, direction: "ltr" }))
 
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
+  
+  React.useEffect(() => {
+    if (!api) {
+      return
+    }
+    // Sync plugin with api
+  }, [api])
+
 
   const features = [
     {
@@ -69,7 +79,8 @@ export default function WelcomePage() {
 
       <div className="mt-8 w-full max-w-xl">
         <Carousel 
-          plugins={[autoplayPlugin.current]}
+          setApi={setApi}
+          plugins={isMounted ? [autoplayPlugin.current] : []}
           className="w-full"
           onMouseEnter={autoplayPlugin.current.stop}
           onMouseLeave={autoplayPlugin.current.reset}
