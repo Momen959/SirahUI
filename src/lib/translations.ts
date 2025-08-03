@@ -1,3 +1,4 @@
+
 export const translations = {
   en: {
     welcome: {
@@ -144,6 +145,11 @@ export const translations = {
             deleteDialogCancel: "Cancel",
             deleteDialogContinue: "Continue",
         }
+    },
+    comingSoon: {
+      title: "Coming Soon!",
+      description: "We're working hard to bring you this new feature. Please check back later.",
+      backToHome: "Back to Home",
     }
   },
   ar: {
@@ -291,6 +297,11 @@ export const translations = {
             deleteDialogCancel: "إلغاء",
             deleteDialogContinue: "متابعة",
         }
+    },
+    comingSoon: {
+      title: "قريباً!",
+      description: "نحن نعمل بجد لنقدم لكم هذه الميزة الجديدة. يرجى التحقق مرة أخرى في وقت لاحق.",
+      backToHome: "العودة إلى الرئيسية",
     }
   },
 };
