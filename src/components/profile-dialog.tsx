@@ -70,7 +70,7 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
             <TabsTrigger value="data">{t.profile.tabs.data}</TabsTrigger>
           </TabsList>
           <TabsContent value="profile">
-            <div className="space-y-4 py-4">
+            <div className="space-y-4 py-4 text-left rtl:text-right">
               <div className="space-y-2">
                 <Label htmlFor="name">{t.profile.profile.nameLabel}</Label>
                 <Input id="name" defaultValue="AI Enthusiast" />
@@ -85,7 +85,7 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
             </DialogFooter>
           </TabsContent>
           <TabsContent value="appearance">
-             <div className="space-y-6 py-4">
+             <div className="space-y-6 py-4 text-left rtl:text-right">
                 <div className="space-y-2">
                     <Label>{t.profile.appearance.themeLabel}</Label>
                     <p className="text-sm text-muted-foreground">{t.profile.appearance.themeDescription}</p>
@@ -104,7 +104,7 @@ export function ProfileDialog({ children }: { children: React.ReactNode }) {
             </div>
           </TabsContent>
           <TabsContent value="data">
-            <div className="space-y-6 py-4">
+            <div className="space-y-6 py-4 text-left rtl:text-right">
                 <div className="space-y-2">
                     <Label>{t.profile.data.exportLabel}</Label>
                     <p className="text-sm text-muted-foreground">{t.profile.data.exportDescription}</p>

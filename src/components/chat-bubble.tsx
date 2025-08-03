@@ -46,18 +46,18 @@ export function ChatBubble({ message }: { message: Message }) {
                 {message.sources.map((source, index) => (
                 <Card key={index} className="bg-background/50 border-primary/20">
                     <AccordionItem value={`item-${index}`} className="border-b-0">
-                        <AccordionTrigger className="p-3 text-start">
+                        <AccordionTrigger className="p-3 text-start rtl:text-right">
                             <div className="flex flex-row items-center gap-3 space-y-0">
                                 <BookOpen className="h-5 w-5 text-accent shrink-0" />
-                                <span className="text-sm font-semibold text-primary text-start">{source.title}</span>
+                                <span className="text-sm font-semibold text-primary text-start rtl:text-right">{source.title}</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="px-3 pb-3">
                            <div className="space-y-2">
-                             <blockquote className="border-l-2 border-primary/50 pl-3 text-sm text-muted-foreground" dir="ltr">
+                             <blockquote className="border-l-2 rtl:border-l-0 rtl:border-r-2 border-primary/50 ltr:pl-3 rtl:pr-3 text-sm text-muted-foreground text-left rtl:text-right" dir="ltr">
                                 {source.englishContent}
                             </blockquote>
-                            <blockquote className="border-r-2 border-primary/50 pr-3 text-sm text-muted-foreground" dir="rtl">
+                            <blockquote className="border-l-2 rtl:border-l-0 rtl:border-r-2 border-primary/50 ltr:pl-3 rtl:pr-3 text-sm text-muted-foreground text-left rtl:text-right" dir="rtl">
                                 {source.arabicContent}
                             </blockquote>
                            </div>
