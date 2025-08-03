@@ -96,7 +96,7 @@ function LoginClient() {
         <main className="flex h-screen flex-col items-center justify-center p-4 paper">
              <Button variant="ghost" className="absolute top-4 ltr:left-4 rtl:right-4" asChild>
                 <Link href="/">
-                    <BackArrow className={language === 'ar' ? 'ml-2' : 'mr-2'} />
+                    <BackArrow className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
                     {t.login.backToHome}
                 </Link>
             </Button>
@@ -107,7 +107,7 @@ function LoginClient() {
                 </TabsList>
                 <TabsContent value="signin">
                     <Card>
-                        <CardHeader>
+                        <CardHeader className="rtl:text-right">
                             <CardTitle>{t.login.signIn.title}</CardTitle>
                             <CardDescription>
                                 {t.login.signIn.description}
@@ -121,7 +121,7 @@ function LoginClient() {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t.login.emailLabel}</FormLabel>
+                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.emailLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="you@example.com" {...field} />
                                                 </FormControl>
@@ -134,7 +134,7 @@ function LoginClient() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t.login.passwordLabel}</FormLabel>
+                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.passwordLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="••••••••" {...field} />
                                                 </FormControl>
@@ -163,7 +163,7 @@ function LoginClient() {
                 </TabsContent>
                 <TabsContent value="signup">
                      <Card>
-                        <CardHeader>
+                        <CardHeader className="rtl:text-right">
                             <CardTitle>{t.login.signUp.title}</CardTitle>
                             <CardDescription>
                                 {t.login.signUp.description}
@@ -177,7 +177,7 @@ function LoginClient() {
                                         name="name"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t.login.nameLabel}</FormLabel>
+                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.nameLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder={t.login.namePlaceholder} {...field} />
                                                 </FormControl>
@@ -190,7 +190,7 @@ function LoginClient() {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t.login.emailLabel}</FormLabel>
+                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.emailLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="you@example.com" {...field} />
                                                 </FormControl>
@@ -203,7 +203,7 @@ function LoginClient() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t.login.passwordLabel}</FormLabel>
+                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.passwordLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="••••••••" {...field} />
                                                 </FormControl>
