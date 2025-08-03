@@ -60,7 +60,7 @@ const perspectives = Object.keys(perspectiveConfig).filter(p => p !== "Qur'an") 
 export default function SirahSenseClient({ promptSuggestions: initialPromptSuggestions }: { promptSuggestions: PromptSuggestion[] }) {
   const { language } = useLanguage();
   const t = translations[language];
-
+  
   const [messages, setMessages] = useState<Message[]>([]);
   const [promptSuggestions, setPromptSuggestions] = useState<PromptSuggestion[]>(initialPromptSuggestions);
   
@@ -82,18 +82,25 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
 
   useEffect(() => {
     setIsMounted(true);
-    setMessages([
-        {
-          id: "1",
-          sender: "ai",
-          text: t.chat.welcomeMessage,
-        },
-      ]);
-  }, [t.chat.welcomeMessage]);
+  }, []);
+  
+  useEffect(() => {
+    if (isMounted) {
+      setMessages([
+          {
+            id: "1",
+            sender: "ai",
+            text: t.chat.welcomeMessage,
+          },
+        ]);
+    }
+  }, [t.chat.welcomeMessage, isMounted]);
 
   useEffect(() => {
-    setPlugin(Autoplay({ delay: 5000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr'}));
-  }, [language]);
+    if (isMounted) {
+      setPlugin(Autoplay({ delay: 5000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr'}));
+    }
+  }, [language, isMounted]);
 
   useEffect(() => {
     async function fetchSuggestions(lang: Language) {
@@ -117,7 +124,7 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
       if (prev.includes(perspective)) {
         return prev.filter(p => p !== perspective);
       } else {
-        return [...prev, perspective];
+        return [...prev, activePerspectives.length > 0 ? [...prev, perspective] : [perspective]];
       }
     });
   };
@@ -214,6 +221,9 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
                   className="w-full"
                   onMouseEnter={plugin?.stop}
                   onMouseLeave={plugin?.reset}
+                  opts={{
+                    direction: language === 'ar' ? 'rtl' : 'ltr'
+                  }}
                 >
                   <CarouselContent>
                     {promptSuggestions.map((suggestion, index) => (
@@ -274,7 +284,7 @@ export default function SirahSenseClient({ promptSuggestions: initialPromptSugge
                 className="absolute ltr:right-2 rtl:left-2 top-1/2 -translate-y-1/2 h-9 w-9 shrink-0 rounded-full"
                 disabled={!input.trim() || isTyping}
               >
-                <SendHorizontal className="h-5 w-5" />
+                <SendHorizontal className="h-5 w-5 rtl:rotate-180" />
                 <span className="sr-only">{t.chat.sendButton}</span>
               </Button>
             </div>
