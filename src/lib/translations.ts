@@ -147,8 +147,8 @@ export const translations = {
         }
     },
     comingSoon: {
-      title: "Coming Soon!",
-      description: "We're working hard to bring you this new feature. Please check back later.",
+      title: "SirahSense is Coming Soon!",
+      description: "We are working hard to bring you a new, intuitive way to explore the Seerah. Please check back later.",
       backToHome: "Back to Home",
     }
   },
@@ -299,8 +299,8 @@ export const translations = {
         }
     },
     comingSoon: {
-      title: "قريباً!",
-      description: "نحن نعمل بجد لنقدم لكم هذه الميزة الجديدة. يرجى التحقق مرة أخرى في وقت لاحق.",
+      title: "سيرا سينس قريباً!",
+      description: "نحن نعمل بجد لنقدم لكم طريقة جديدة وبديهية لاستكشاف السيرة النبوية. يرجى التحقق مرة أخرى في وقت لاحق.",
       backToHome: "العودة إلى الرئيسية",
     }
   },
