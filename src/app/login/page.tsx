@@ -121,7 +121,7 @@ function LoginClient() {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.emailLabel}</FormLabel>
+                                                <FormLabel className="w-full rtl:text-right">{t.login.emailLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="you@example.com" {...field} />
                                                 </FormControl>
@@ -134,7 +134,7 @@ function LoginClient() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.passwordLabel}</FormLabel>
+                                                <FormLabel className="w-full rtl:text-right">{t.login.passwordLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="••••••••" {...field} />
                                                 </FormControl>
@@ -177,7 +177,8 @@ function LoginClient() {
                                         name="name"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.nameLabel}</FormLabel>
+                                                <FormLabel className="w-full rtl:text-right">{t.login.nameLabel}</FormLabel>
+
                                                 <FormControl>
                                                     <Input placeholder={t.login.namePlaceholder} {...field} />
                                                 </FormControl>
@@ -190,7 +191,7 @@ function LoginClient() {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.emailLabel}</FormLabel>
+                                                <FormLabel className="w-full rtl:text-right">{t.login.emailLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="you@example.com" {...field} />
                                                 </FormControl>
@@ -203,7 +204,7 @@ function LoginClient() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="rtl:w-full rtl:text-right">{t.login.passwordLabel}</FormLabel>
+                                                <FormLabel className="w-full rtl:text-right">{t.login.passwordLabel}</FormLabel>
                                                 <FormControl>
                                                     <Input type="password" placeholder="••••••••" {...field} />
                                                 </FormControl>
