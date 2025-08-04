@@ -1,87 +1,20 @@
 
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BrainCircuit, BookOpen, Compass, Sparkles, ArrowRight } from "lucide-react";
-import { useLanguage } from "@/components/language-provider";
-import { translations } from "@/lib/translations";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { LoadingSpinner } from '@/components/loading-spinner';
 
-export default function WelcomePage() {
-  const [isMounted, setIsMounted] = React.useState(false);
-  const { language } = useLanguage();
-  const t = translations[language];
+export default function HomePage() {
+  const router = useRouter();
 
-  const features = [
-    {
-      icon: <BrainCircuit className="h-8 w-8 text-primary" />,
-      title: t.welcome.features.chat.title,
-      description: t.welcome.features.chat.description,
-    },
-    {
-      icon: <BookOpen className="h-8 w-8 text-primary" />,
-      title: t.welcome.features.sources.title,
-      description: t.welcome.features.sources.description,
-    },
-    {
-      icon: <Compass className="h-8 w-8 text-primary" />,
-      title: t.welcome.features.perspectives.title,
-      description: t.welcome.features.perspectives.description,
-    },
-    {
-      icon: <Sparkles className="h-8 w-8 text-primary" />,
-      title: t.welcome.features.reflections.title,
-      description: t.welcome.features.reflections.description,
-    },
-  ];
-  
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  
-  if (!isMounted) {
-    return null; // or a loading skeleton
-  }
-  
-  const ArrowIcon = language === 'ar' ? ArrowRight : ArrowRight;
-
+  useEffect(() => {
+    router.replace('/coming-soon');
+  }, [router]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-8 paper">
-      <div className="w-full max-w-5xl">
-        <header className="text-center">
-            <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary">
-                {t.welcome.title}
-            </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
-                {t.welcome.subtitle}
-            </p>
-            <Button asChild size="lg" className="mt-8">
-                <Link href="/login">
-                    {t.welcome.cta}
-                    <ArrowIcon className={language === 'ar' ? "ltr:mr-2 rtl:ml-2 rtl:rotate-180 h-5 w-5" : "ltr:ml-2 rtl:mr-2 h-5 w-5"} />
-                </Link>
-            </Button>
-        </header>
-
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, index) => (
-            <Card key={index} className="text-center bg-card/50 border-primary/10 hover:border-primary/20 hover:bg-card/80 transition-all">
-              <CardHeader className="items-center">
-                <div className="p-4 bg-primary/10 rounded-full">
-                    {feature.icon}
-                </div>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </main>
+    <div className="flex h-screen items-center justify-center">
+      <LoadingSpinner />
+    </div>
   );
 }
