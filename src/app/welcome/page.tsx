@@ -15,7 +15,9 @@ export default function WelcomePage() {
   const [isMounted, setIsMounted] = React.useState(false);
   const { language } = useLanguage();
   const t = translations[language];
-  const [plugin, setPlugin] = React.useState<React.ComponentProps<typeof Autoplay>['plugin']>();
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr' })
+  );
 
   const features = [
     {
@@ -42,8 +44,7 @@ export default function WelcomePage() {
   
   React.useEffect(() => {
     setIsMounted(true);
-    setPlugin(Autoplay({ delay: 3000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr' }));
-  }, [language]);
+  }, []);
   
   if (!isMounted) {
     return null; // or a loading skeleton
@@ -72,10 +73,10 @@ export default function WelcomePage() {
 
         <div className="mt-16">
           <Carousel
-            plugins={plugin ? [plugin] : []}
-            className="w-full"
-            onMouseEnter={plugin?.stop}
-            onMouseLeave={plugin?.reset}
+            plugins={[plugin.current]}
+            className="w-full max-w-xs mx-auto"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
             opts={{
               loop: true,
               direction: language === 'ar' ? 'rtl' : 'ltr'
@@ -83,7 +84,7 @@ export default function WelcomePage() {
           >
             <CarouselContent className="-ml-4">
               {features.map((feature, index) => (
-                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={index} className="pl-4">
                   <div className="p-1 h-full">
                     <Card className="text-center bg-card/50 border-primary/10 hover:border-primary/20 hover:bg-card/80 transition-all h-full flex flex-col">
                       <CardHeader className="items-center">
