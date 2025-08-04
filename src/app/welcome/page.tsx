@@ -15,9 +15,7 @@ export default function WelcomePage() {
   const [isMounted, setIsMounted] = React.useState(false);
   const { language } = useLanguage();
   const t = translations[language];
-  const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr' })
-  );
+  const [plugin, setPlugin] = React.useState<React.ComponentProps<typeof Autoplay>['plugin']>();
 
   const features = [
     {
@@ -45,6 +43,12 @@ export default function WelcomePage() {
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  React.useEffect(() => {
+    if (isMounted) {
+        setPlugin(Autoplay({ delay: 3000, stopOnInteraction: true, direction: language === 'ar' ? 'rtl' : 'ltr'}));
+    }
+  }, [language, isMounted]);
   
   if (!isMounted) {
     return null; // or a loading skeleton
@@ -63,20 +67,14 @@ export default function WelcomePage() {
             <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
                 {t.welcome.subtitle}
             </p>
-            <Button asChild size="lg" className="mt-8">
-                <Link href="/login">
-                    {t.welcome.cta}
-                    <ArrowIcon className={language === 'ar' ? "ltr:mr-2 rtl:ml-2 rtl:rotate-180 h-5 w-5" : "ltr:ml-2 rtl:mr-2 h-5 w-5"} />
-                </Link>
-            </Button>
         </header>
 
-        <div className="mt-16">
+        <div className="mt-16 mb-8">
           <Carousel
-            plugins={[plugin.current]}
-            className="w-full max-w-xs mx-auto"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
+            plugins={plugin ? [plugin] : []}
+            className="w-full max-w-sm mx-auto"
+            onMouseEnter={plugin?.stop}
+            onMouseLeave={plugin?.reset}
             opts={{
               loop: true,
               direction: language === 'ar' ? 'rtl' : 'ltr'
@@ -104,6 +102,15 @@ export default function WelcomePage() {
             <CarouselPrevious className="hidden sm:flex" />
             <CarouselNext className="hidden sm:flex" />
           </Carousel>
+        </div>
+
+        <div className="text-center">
+            <Button asChild size="lg">
+                <Link href="/login">
+                    {t.welcome.cta}
+                    <ArrowIcon className={language === 'ar' ? "ltr:mr-2 rtl:ml-2 rtl:rotate-180 h-5 w-5" : "ltr:ml-2 rtl:mr-2 h-5 w-5"} />
+                </Link>
+            </Button>
         </div>
       </div>
     </main>
