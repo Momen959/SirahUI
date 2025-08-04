@@ -3,7 +3,7 @@
 
 import * as React from "react"
 
-type ColorTheme = "theme-green" | "theme-brown" | "theme-blue" | "theme-purple";
+type ColorTheme = "theme-original" | "theme-green" | "theme-brown" | "theme-blue" | "theme-purple";
 
 type ColorThemeProviderProps = {
   children: React.ReactNode
@@ -17,7 +17,7 @@ type ColorThemeProviderState = {
 }
 
 const initialState: ColorThemeProviderState = {
-  theme: "theme-green",
+  theme: "theme-original",
   setTheme: () => null,
 }
 
@@ -25,7 +25,7 @@ const ColorThemeProviderContext = React.createContext<ColorThemeProviderState>(i
 
 export function ColorThemeProvider({
   children,
-  defaultTheme = "theme-green",
+  defaultTheme = "theme-original",
   storageKey = "sirasense-ui-theme",
   ...props
 }: ColorThemeProviderProps) {
@@ -35,7 +35,7 @@ export function ColorThemeProvider({
 
   React.useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove("theme-green", "theme-brown", "theme-blue", "theme-purple")
+    root.classList.remove("theme-original", "theme-green", "theme-brown", "theme-blue", "theme-purple")
     root.classList.add(theme)
     localStorage.setItem(storageKey, theme)
   }, [theme, storageKey])

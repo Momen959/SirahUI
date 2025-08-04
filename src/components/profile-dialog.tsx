@@ -170,6 +170,9 @@ function ColorThemeSelector() {
 
     return (
         <div className="grid grid-cols-2 gap-2">
+            <Button variant={theme === 'theme-original' ? 'default' : 'outline'} onClick={() => setTheme('theme-original')} className="w-full">
+                <Palette className="ltr:mr-2 rtl:ml-2 h-4 w-4"/> {t.profile.appearance.colorOriginal}
+            </Button>
             <Button variant={theme === 'theme-green' ? 'default' : 'outline'} onClick={() => setTheme('theme-green')} className="w-full">
                 <Palette className="ltr:mr-2 rtl:ml-2 h-4 w-4"/> {t.profile.appearance.colorGreen}
             </Button>

@@ -4,6 +4,80 @@
 @tailwind utilities;
 
 @layer base {
+  .theme-original.light, .theme-original .light {
+    --background: 48 33% 97%; /* Very light cream */
+    --foreground: 150 25% 15%; /* Dark, muted green */
+    --card: 48 33% 94%; /* Light cream */
+    --card-foreground: 150 25% 15%;
+    --popover: 48 33% 97%;
+    --popover-foreground: 150 25% 15%;
+    --primary: 150 25% 30%; /* Muted deep green from logo */
+    --primary-foreground: 45 50% 90%; /* Light gold/cream for text on primary */
+    --secondary: 150 20% 95%; /* Very light green */
+    --secondary-foreground: 150 25% 25%;
+    --muted: 150 20% 95%;
+    --muted-foreground: 150 20% 45%;
+    --accent: 45 70% 85%; /* Soft gold from logo */
+    --accent-foreground: 150 25% 25%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 45 50% 90%;
+    --border: 150 15% 90%;
+    --input: 150 15% 90%;
+    --ring: 150 25% 30%;
+    --radius: 1.5rem;
+
+    /* Sidebar specific vars */
+    --sidebar-background: 150 10% 98%;
+    --sidebar-foreground: 150 25% 20%;
+    --sidebar-border: 150 15% 90%;
+    --sidebar-accent: 150 20% 93%;
+    --sidebar-accent-foreground: 150 25% 25%;
+    --sidebar-ring: 150 25% 30%;
+
+    --chart-1: 150 25% 30%;
+    --chart-2: 45 70% 70%;
+    --chart-3: 150 20% 50%;
+    --chart-4: 45 60% 80%;
+    --chart-5: 150 15% 60%;
+  }
+
+  .theme-original.dark, .theme-original .dark {
+    --background: 150 20% 18%; /* Dark green from logo background */
+    --foreground: 45 50% 90%; /* Light gold/cream for text */
+    --card: 150 20% 22%; /* Slightly lighter green */
+    --card-foreground: 45 50% 90%;
+    --popover: 150 20% 18%;
+    --popover-foreground: 45 50% 90%;
+    --primary: 45 60% 80%; /* Gold for primary actions */
+    --primary-foreground: 150 25% 15%; /* Dark green for text on primary */
+    --secondary: 150 15% 25%;
+    --secondary-foreground: 45 50% 90%;
+    --muted: 150 15% 25%;
+    --muted-foreground: 45 30% 70%;
+    --accent: 150 15% 30%;
+    --accent-foreground: 45 50% 90%;
+    --destructive: 0 50% 40%;
+    --destructive-foreground: 45 50% 90%;
+    --border: 150 15% 28%;
+    --input: 150 15% 28%;
+    --ring: 45 60% 80%;
+    --radius: 1.5rem;
+    
+    /* Sidebar specific vars */
+    --sidebar-background: 150 20% 15%;
+    --sidebar-foreground: 45 50% 85%;
+    --sidebar-border: 150 15% 25%;
+    --sidebar-accent: 150 15% 25%;
+    --sidebar-accent-foreground: 45 50% 90%;
+    --sidebar-ring: 45 60% 80%;
+    
+    --chart-1: 45 60% 80%;
+    --chart-2: 45 50% 70%;
+    --chart-3: 150 20% 60%;
+    --chart-4: 45 40% 60%;
+    --chart-5: 150 15% 70%;
+  }
+
   .theme-green.light, .theme-green .light {
     --background: 240 50% 98%; /* Off-white (#F8F8FF) */
     --foreground: 240 10% 3.9%;
